@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import ProjectsBar from "./components/ProjectsBar";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>ECHALOTE</h1>
-    </>
+    <div className='flex'>
+      <h1 className='text-3xl font-bold'>
+        ECHALOTE
+      </h1>
+      <ProjectsBar/>
+    </div>
   )
 }
 
-export default App
+export default App;
