@@ -1,11 +1,12 @@
+import MainContent from "./components/MainContent";
 import ProjectsBar from "./components/ProjectsBar";
+import TopBar from "./components/TopBar";
 
 function App() {
   return (
     <div className='flex'>
-      <h1 className='text-3xl font-bold'>
-        ECHALOTE
-      </h1>
+      <MainContent/>
+      <TopBar/>
       <ProjectsBar/>
     </div>
   )
