@@ -10,6 +10,13 @@
 
 ## Back :
 
-- Express
-- Prisma?
+- Nest
+- Prisma
 - PostgreSQL
+
+
+# How to run
+
+```bash
+$ npm run dev
+```

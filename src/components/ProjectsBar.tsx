@@ -1,4 +1,3 @@
-import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
 const ProjectsBar = () => {
 
@@ -21,7 +20,7 @@ interface SideBarIconProps {
 
 
 const SideBarIcon = (props: SideBarIconProps) => (
-    <div className="project-bar-icons" style={{backgroundColor: props.color}}>
+    <div className="project-bar-icons cursor-pointer" style={{backgroundColor: props.color}}>
         <p className=" font-bold">{props.letter}</p>
     </div>
 )
