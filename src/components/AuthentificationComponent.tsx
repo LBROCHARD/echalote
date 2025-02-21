@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-interface LoginRegisterComponentProps {
+interface AuthentificationComponentProps {
 }
 
-const LoginRegisterComponent = (props: LoginRegisterComponentProps) => {
+const AuthentificationComponent = (props: AuthentificationComponentProps) => {
 
     const [fetchError, setFetchError] = useState("");
     const [token, setToken] = useState("");
@@ -71,4 +71,4 @@ const LoginRegisterComponent = (props: LoginRegisterComponentProps) => {
 }
 
 
-export default LoginRegisterComponent;
+export default AuthentificationComponent;
