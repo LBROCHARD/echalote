@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 interface AuthentificationComponentProps {
+    setServersData: any
 }
 
 const AuthentificationComponent = (props: AuthentificationComponentProps) => {
@@ -29,7 +30,7 @@ const AuthentificationComponent = (props: AuthentificationComponentProps) => {
             }
             const json = await response.json();
             console.log(json);
-            // setServersData(json.username);
+            props.setServersData(json.username);
         } catch (error: any) {
             console.error(error.message);
         }
@@ -55,14 +56,15 @@ const AuthentificationComponent = (props: AuthentificationComponentProps) => {
         .then(async (response) => {
             var responseObject = await response.json();
             setToken(await responseObject.access_token);
+            setFetchError("")
         })
     }
 
 
     return (
-        <div className="bg-stone-200 p-20 w-500 h-500 rounded-lg shadow-lg">
-            <p> Token : {token} </p>
-            <p className="font-bold">no account ?</p>
+        <div className="bg-stone-200 p-20 h-500 max-w-lg rounded-lg shadow-lg">
+            <h1 className="font-bold text-2xl">Not connected ?</h1>
+            <p className="w-xs text-clip"> Token : {token} </p>
             <p className="text-red-600"> {fetchError} </p>
             <button className="bg-slate-500" onClick={login}>connect</button>
             <button className="bg-yellow-200 ml-8" onClick={testAuth}>testAuth</button>

@@ -21,7 +21,7 @@ function App() {
             ) : (
                 <>
                     <div className="bg-secondary flex items-center justify-center fixed top-0 left-0 w-full h-full">
-                        <AuthentificationComponent/>
+                        <AuthentificationComponent setServersData={setServersData}/>
                     </div>
                 </>
             )}
