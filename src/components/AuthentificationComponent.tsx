@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
 
 interface AuthentificationComponentProps {
     setServersData: any
@@ -36,11 +37,15 @@ const AuthentificationComponent = (props: AuthentificationComponentProps) => {
         }
     }
 
-
+    // const connectionInfo = { 
+    //     username: "john", 
+    //     email: "john@bob.bob", 
+    //     password: "johnword" 
+    // }
     const connectionInfo = { 
-        username: "john", 
-        email: "john@bob.bob", 
-        password: "johnword" 
+        username: "bob", 
+        email: "bob@bob.bob", 
+        password: "bobword" 
     }
 
     const login = async () => {
@@ -66,8 +71,8 @@ const AuthentificationComponent = (props: AuthentificationComponentProps) => {
             <h1 className="font-bold text-2xl">Not connected ?</h1>
             <p className="w-xs text-clip"> Token : {token} </p>
             <p className="text-red-600"> {fetchError} </p>
-            <button className="bg-slate-500" onClick={login}>connect</button>
-            <button className="bg-yellow-200 ml-8" onClick={testAuth}>testAuth</button>
+            <Button className="bg-slate-500" onClick={login}>connect</Button>
+            <Button className="bg-yellow-200 ml-8" onClick={testAuth}>testAuth</Button>
         </div>
     );
 }
