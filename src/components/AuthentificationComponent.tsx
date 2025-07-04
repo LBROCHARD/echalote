@@ -6,6 +6,7 @@ interface AuthentificationComponentProps {
 }
 
 const AuthentificationComponent = (props: AuthentificationComponentProps) => {
+    const API = import.meta.env.VITE_REACT_APP_API_URL
 
     const [fetchError, setFetchError] = useState("");
     const [token, setToken] = useState("");
@@ -15,7 +16,7 @@ const AuthentificationComponent = (props: AuthentificationComponentProps) => {
 
     const testAuth = async () => {
         try {
-            const response = await fetch("http://localhost:3000/auth/profile", {
+            const response = await fetch(API + "/auth/profile", {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -49,7 +50,7 @@ const AuthentificationComponent = (props: AuthentificationComponentProps) => {
     }
 
     const login = async () => {
-        fetch("http://localhost:3000/auth/login", {
+        fetch(API + "/auth/login", {
             method: 'POST',
             mode: 'cors',
             headers: {

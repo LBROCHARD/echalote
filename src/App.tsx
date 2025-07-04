@@ -22,10 +22,8 @@ function App() {
                 </>
             ) : (
                 <>
-                    {/* <div className="bg-secondary flex items-center justify-center fixed top-0 left-0 w-full h-full"> */}
-                        <Button>ShadCN be like : brrrrrrrrrr</Button>
-                        <AuthentificationComponent setServersData={setServersData}/>
-                    {/* </div> */}
+                    <Button>ShadCN be like : brrrrrrrrrr</Button>
+                    <AuthentificationComponent setServersData={setServersData}/>
                 </>
             )}
         </div>
