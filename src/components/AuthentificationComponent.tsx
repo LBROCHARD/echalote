@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import RegisterForm from "./auth/RegisterForm";
 
 interface AuthentificationComponentProps {
     setServersData: any
@@ -74,6 +75,8 @@ const AuthentificationComponent = (props: AuthentificationComponentProps) => {
             <p className="text-red-600"> {fetchError} </p>
             <Button className="bg-slate-500" onClick={login}>connect</Button>
             <Button className="bg-yellow-200 ml-8" onClick={testAuth}>testAuth</Button>
+
+            <RegisterForm/>
         </div>
     );
 }
