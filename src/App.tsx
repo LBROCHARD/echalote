@@ -15,14 +15,12 @@ function App() {
         <div className='bg-secondary flex'>
             { serversData ? (
                 <>
-                    <Button>ShadCN be like : brrrrrrrrrr</Button>
                     <MainContent username={serversData}/>
                     <TopBar/>
                     <ProjectsBar username={serversData}/>
                 </>
             ) : (
                 <>
-                    <Button>ShadCN be like : brrrrrrrrrr</Button>
                     <AuthentificationComponent setServersData={setServersData}/>
                 </>
             )}

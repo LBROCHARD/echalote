@@ -69,15 +69,16 @@ const AuthentificationComponent = (props: AuthentificationComponentProps) => {
 
 
     return (
-        <div className="bg-stone-200 p-20 h-500 max-w-lg rounded-lg shadow-lg">
-            <h1 className="font-bold text-2xl">Not connected ?</h1>
-            <p className="w-xs text-clip"> Token : {token} </p>
-            <p className="text-red-600"> {fetchError} </p>
-            <Button className="bg-slate-500" onClick={login}>connect</Button>
-            <Button className="bg-yellow-200 ml-8" onClick={testAuth}>testAuth</Button>
-
+        // <div className="bg-stone-200 p-20 h-500 max-w-lg rounded-lg shadow-lg">
+        //     <h1 className="font-bold text-2xl">Not connected ?</h1>
+        //     <p className="w-xs text-clip"> Token : {token} </p>
+        //     <p className="text-red-600"> {fetchError} </p>
+        //     <Button className="bg-slate-500" onClick={login}>connect</Button>
+        //     <Button className="bg-yellow-200 ml-8" onClick={testAuth}>testAuth</Button>
+        // </div>
+        <>
             <RegisterForm/>
-        </div>
+        </>
     );
 }
 
