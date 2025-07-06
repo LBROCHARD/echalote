@@ -3,24 +3,26 @@ import MainContent from "./components/MainContent";
 import ProjectsBar from "./components/ProjectsBar";
 import TopBar from "./components/TopBar";
 import RegisterForm from "./components/auth/RegisterForm";
+import LoginForm from "./components/auth/LoginForm";
 
 function App() {
 
-    const [serversData, setServersData] = useState();
+    const [token, setToken] = useState("");
 
-    useEffect(() => {}, [serversData]);
+    useEffect(() => {}, [token]);
 
     return (
         <div className='bg-secondary flex'>
-            { serversData ? (
+            { token ? (
                 <>
-                    <MainContent username={serversData}/>
+                    <MainContent token={token}/>
                     <TopBar/>
-                    <ProjectsBar username={serversData}/>
+                    <ProjectsBar token={token}/>
                 </>
             ) : (
                 <>
                     <RegisterForm/>
+                    <LoginForm setToken={setToken}/>
                 </>
             )}
         </div>

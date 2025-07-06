@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import RegisterForm from "./auth/RegisterForm";
 
-interface AuthentificationComponentProps {
-    setServersData: any
-}
+// interface AuthentificationComponentProps {
+//     setServersData: any
+// }
 
-const AuthentificationComponent = (props: AuthentificationComponentProps) => {
-    const API = import.meta.env.VITE_REACT_APP_API_URL
+const AuthentificationComponent = ( /* props: AuthentificationComponentProps */) => {
+    // const API = import.meta.env.VITE_REACT_APP_API_URL
 
-    const [fetchError, setFetchError] = useState("");
-    const [token, setToken] = useState("");
+    // const [fetchError, setFetchError] = useState("");
+    // const [token, setToken] = useState("");
 
-    useEffect(() => {}, [fetchError, token]);
+    // useEffect(() => {}, [fetchError, token]);
 
 
     // const testAuth = async () => {

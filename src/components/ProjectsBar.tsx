@@ -1,7 +1,7 @@
 import superNotesLogo from '/SuperNotes_icon.png';
 
 interface ProjectsBarProps {
-    username: string;
+    token: string;
 }
 
 const ProjectsBar = (props: ProjectsBarProps) => {
@@ -24,7 +24,7 @@ const ProjectsBar = (props: ProjectsBarProps) => {
             </div>
 
             <div className="project-bar-icons cursor-pointer " style={{backgroundColor: 'grey'}}>
-                <p>{props.username}</p>
+                <p>{props.token}</p>
             </div>
         </div>
     );

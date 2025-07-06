@@ -7,14 +7,18 @@ import { Input } from "../ui/input"
 import { useState } from "react"
  
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+//   username: z.string().min(2, {
+//     message: "Username must be at least 2 characters.",
+//   }),
   email: z.string().email({message: "Please enter a valid email"}).min(3),
   password: z.string().min(8, {message: "The password must be at least 8 characters"})
 })
+
+interface RegisterFormProps {
+    setToken: any
+}
  
-const RegisterForm = () => {
+const RegisterForm = (props: RegisterFormProps) => {
   const API = import.meta.env.VITE_REACT_APP_API_URL
 
   const [fetchError, setFetchError] = useState("");
@@ -22,7 +26,7 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+    //   username: "",
       email: "",
       password: "",
     },
@@ -32,17 +36,17 @@ const RegisterForm = () => {
     console.log(values)
 
     try {
-      const response = await fetch(API + "/auth/signup", {
+      const response = await fetch(API + "/auth/login", {
         method: "post",
         headers: {
           // 'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: values.username,
+          username: "",
           email: values.email,
           password: values.password
-        })
+        }) 
       });
       if (!response.ok ) {
         if ([401, 403].indexOf(response.status) !== -1) {
@@ -54,6 +58,7 @@ const RegisterForm = () => {
       }
       const json = await response.json();
       console.log(json);
+      props.setToken(json.access_token)
     } catch (error: any) {
       console.error(error.message);
     }
@@ -63,7 +68,7 @@ const RegisterForm = () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
+          {/* <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
@@ -75,7 +80,7 @@ const RegisterForm = () => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             control={form.control}
             name="email"
