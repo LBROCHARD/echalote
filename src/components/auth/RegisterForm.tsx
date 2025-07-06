@@ -53,6 +53,30 @@ const RegisterForm = () => {
     }
   }
 
+  // const testAuth = async () => {
+  //   try {
+  //     const response = await fetch(API + "/auth/profile", {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
+  //     if (!response.ok ) {
+  //       if ([401, 403].indexOf(response.status) !== -1) {
+  //         console.log("Unauthorized");
+  //         setFetchError(`Response status:  ${response.status}`);
+  //         return
+  //       }
+  //       throw new Error(`Response status: ${response.status}`);
+  //     }
+  //     const json = await response.json();
+  //     console.log(json);
+  //     props.setServersData(json.username);
+  //   } catch (error: any) {
+  //     console.error(error.message);
+  //   }
+  // }
+
   return (
     <>
       <Form {...form}>

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import MainContent from "./components/MainContent";
 import ProjectsBar from "./components/ProjectsBar";
 import TopBar from "./components/TopBar";
-import AuthentificationComponent from "./components/AuthentificationComponent";
-import { Button } from "./components/ui/button";
+import RegisterForm from "./components/auth/RegisterForm";
 
 function App() {
 
@@ -21,7 +20,7 @@ function App() {
                 </>
             ) : (
                 <>
-                    <AuthentificationComponent setServersData={setServersData}/>
+                    <RegisterForm/>
                 </>
             )}
         </div>
