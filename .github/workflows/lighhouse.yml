@@ -25,14 +25,6 @@ jobs:
 
       - name: Build Project
         run: npm run build
-
-
-      # - name: run Lighthouse CI
-      #   run: |
-      #     npm install -g @lhci/cli@0.15.x
-      #     lhci autorun --upload.target=temporary-public-storage || echo "LHCI failed!"
-      #   env:
-      #     LHCI_GITHUB_APP_TOKEN: $
           
       - name: Run Lighthouse CI
         run: npx @lhci/cli autorun --config=./lighthouserc.cjs || echo "LHCI failed!"
@@ -95,4 +87,3 @@ jobs:
                   issue_number: context.issue.number,
                   body
                 });
-                
