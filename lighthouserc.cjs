@@ -4,7 +4,7 @@ module.exports = {
             startServerCommand: "npm run preview",
             startServerReadyPattern: "Local:",
             url: [
-                "http://localhost:5173/",
+                "http://localhost:4173/",
             ],
             numberOfRuns: 1
         },
