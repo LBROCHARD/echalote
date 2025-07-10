@@ -47,7 +47,7 @@ jobs:
         if: github.event.pull_request
         uses: actions/github-script@v7
         env:
-            PREVIEW_URL: "https://super-notes-staging.onrender.com"
+            PREVIEW_URL: "http://localhost:4173" #"https://super-notes-staging.onrender.com"
         with:
             github-token: ${{ secrets.GITHUB_TOKEN }}
             script: |
@@ -55,7 +55,7 @@ jobs:
                 const { owner, repo } = context.repo;
                 const runUrl = `https://github.com/${owner}/${repo}/actions/runs/${process.env.GITHUB_RUN_ID}`;
 
-                const path = './lhci-report/manifest.json';
+                const path = './.lighthouseci/reports/manifest.json';
                 const summary = JSON.parse(fs.readFileSync(path, 'utf8'));
 
                 const toEmoji = (score) => {
