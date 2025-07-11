@@ -15,7 +15,7 @@ const formSchema = z.object({
 })
 
 interface RegisterFormProps {
-    setToken: any
+  setToken: (newToken: string) => void
 }
  
 const RegisterForm = (props: RegisterFormProps) => {
@@ -26,6 +26,7 @@ const RegisterForm = (props: RegisterFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+    // To be used later for email/username auth
     //   username: "",
       email: "",
       password: "",
@@ -39,7 +40,6 @@ const RegisterForm = (props: RegisterFormProps) => {
       const response = await fetch(API + "/auth/login", {
         method: "post",
         headers: {
-          // 'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -59,8 +59,10 @@ const RegisterForm = (props: RegisterFormProps) => {
       const json = await response.json();
       console.log(json);
       props.setToken(json.access_token)
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
 
@@ -68,7 +70,8 @@ const RegisterForm = (props: RegisterFormProps) => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {/* <FormField
+          {// To be used later for email/username auth
+          /* <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
