@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import MainContent from "./components/MainContent";
-import ProjectsBar from "./components/ProjectsBar";
-import TopBar from "./components/TopBar";
-import RegisterForm from "./components/auth/RegisterForm";
-import LoginForm from "./components/auth/LoginForm";
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import MainPage from "./pages/MainPage";
+import ConnexionPage from "./pages/ConnexionPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
 
@@ -12,20 +11,16 @@ function App() {
     useEffect(() => {}, [token]);
 
     return (
-        <div className='bg-secondary flex'>
-            { token ? (
-                <>
-                    <MainContent token={token}/>
-                    <TopBar/>
-                    <ProjectsBar token={token}/>
-                </>
-            ) : (
-                <>
-                    <RegisterForm/>
-                    <LoginForm setToken={setToken}/>
-                </>
-            )}
-        </div>
+        <BrowserRouter>
+            <Routes>    
+                <Route path="/" element={<MainPage token={token}/>}>
+                    <Route path="/page" element={<p>page</p>}></Route>
+                    <Route path="/account" element={<p>account</p>}></Route>
+                </Route>
+                <Route path="/connexion" element={<ConnexionPage setToken={setToken}/>}></Route>
+                <Route path="*" element={<NotFoundPage/>}></Route>
+            </Routes>
+        </BrowserRouter>
     )
 }
 
