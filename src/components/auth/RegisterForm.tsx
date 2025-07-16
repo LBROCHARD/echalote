@@ -54,8 +54,10 @@ const RegisterForm = () => {
       }
       const json = await response.json();
       console.log(json);
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
 
