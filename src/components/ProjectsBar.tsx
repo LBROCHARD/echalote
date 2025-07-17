@@ -1,10 +1,9 @@
+import { useAuth } from '@/providers/AuthContext';
 import superNotesLogo from '/SuperNotes_icon.png';
 
-interface ProjectsBarProps {
-    token: string;
-}
 
-const ProjectsBar = (props: ProjectsBarProps) => {
+const ProjectsBar = () => {
+    const { user } = useAuth();
 
     return (
         <div className="bg-primary fixed top-0 h-screen w-16 flex flex-col text-white shadow justify-between">
@@ -24,7 +23,7 @@ const ProjectsBar = (props: ProjectsBarProps) => {
             </div>
 
             <div className="project-bar-icons cursor-pointer " style={{backgroundColor: 'grey'}}>
-                <p>{props.token}</p>
+                <p>{user?.username}</p>
             </div>
         </div>
     );

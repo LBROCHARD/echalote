@@ -5,7 +5,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { useState } from "react"
- 
+import { useAuth } from "@/providers/AuthContext"
+import { Toaster } from "../ui/sonner"
+import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
+
 const formSchema = z.object({
 //   username: z.string().min(2, {
 //     message: "Username must be at least 2 characters.",
@@ -14,12 +18,11 @@ const formSchema = z.object({
   password: z.string().min(8, {message: "The password must be at least 8 characters"})
 })
 
-interface RegisterFormProps {
-  setToken: (newToken: string) => void
-}
  
-const RegisterForm = (props: RegisterFormProps) => {
+const RegisterForm = () => {
   const API = import.meta.env.VITE_REACT_APP_API_URL
+  const { user, login } = useAuth();
+  const navigate = useNavigate();
 
   const [fetchError, setFetchError] = useState("");
 
@@ -48,6 +51,7 @@ const RegisterForm = (props: RegisterFormProps) => {
           password: values.password
         }) 
       });
+
       if (!response.ok ) {
         if ([401, 403].indexOf(response.status) !== -1) {
           console.log("Unauthorized");
@@ -57,17 +61,22 @@ const RegisterForm = (props: RegisterFormProps) => {
         throw new Error(`Response status: ${response.status}`);
       }
       const json = await response.json();
-      console.log(json);
-      props.setToken(json.access_token)
+      console.log("result : ", json);
+      login(json.access_token, {username: json.username, email: json.username})
+      toast("Successfully logged in as : " + user?.username);
+      navigate("/")
+
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
+        toast("Error trying to login: " + error.message)
       }
     }
   }
 
   return (
     <>
+      <Toaster/>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {// To be used later for email/username auth

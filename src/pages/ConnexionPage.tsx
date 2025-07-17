@@ -1,15 +1,11 @@
 import LoginForm from "@/components/auth/LoginForm";
 import RegisterForm from "@/components/auth/RegisterForm";
 
-interface ConnexionPageProps {
-    setToken: (newToken: string) => void;
-}
-
-const ConnexionPage = (props: ConnexionPageProps) => {
+const ConnexionPage = () => {
     return (
         <>
             <RegisterForm/>
-            <LoginForm setToken={props.setToken}/>
+            <LoginForm/>
         </>
     )
 }
