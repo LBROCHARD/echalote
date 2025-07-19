@@ -1,23 +1,20 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import MainPage from "./pages/MainPage";
+import Layout from "./layout/Layout";
 import ConnexionPage from "./pages/ConnexionPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import MainContent from "./components/MainContent";
 
 function App() {
-
-    const [token, setToken] = useState("");
-
-    useEffect(() => {}, [token]);
 
     return (
         <BrowserRouter>
             <Routes>    
-                <Route path="/" element={<MainPage token={token}/>}>
-                    <Route path="/page" element={<p>page</p>}></Route>
+                <Route path="/" element={<Layout/>}>
+                    <Route path="/" element={<p>main page</p>}></Route>
+                    <Route path="/page" element={<MainContent/>}></Route>
                     <Route path="/account" element={<p>account</p>}></Route>
                 </Route>
-                <Route path="/connexion" element={<ConnexionPage setToken={setToken}/>}></Route>
+                <Route path="/connexion" element={<ConnexionPage/>}></Route>
                 <Route path="*" element={<NotFoundPage/>}></Route>
             </Routes>
         </BrowserRouter>

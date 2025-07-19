@@ -1,14 +1,11 @@
-// import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
+import { useAuth } from "@/providers/AuthContext";
 
-interface MainContentProps {
-    token: string;
-}
-
-const MainContent = (props: MainContentProps) => {
+const MainContent = () => {
+    const {user} = useAuth();
 
     return (
         <div className="bg-secondary fixed top-0 h-screen w-screen flex flex-col shadow pl-16 pt-32">
-            <p className="text-white">{props.token}</p>
+            <p className="text-white">{user?.username}</p>
             <textarea className="max-h-200 m-5 text-white bg-secondary"/>
         </div>
     );
