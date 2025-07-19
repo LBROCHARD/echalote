@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.0](https://github.com/LBROCHARD/echalote/compare/0.1.0...0.2.0) (2025-07-19)
+
+### Features
+
+* added authentification handling in front ([09912c4](https://github.com/LBROCHARD/echalote/commit/09912c44bff548a749aedb15a577b7c96d50c269))
+
+### Bug Fixes
+
+* mocked matchMedia to use it in test ([9702e61](https://github.com/LBROCHARD/echalote/commit/9702e6119c68261043c7f8d20f86a964fa75d6bf))
+
 ## 0.1.0 (2025-07-16)
 
 ### Features
