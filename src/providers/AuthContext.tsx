@@ -22,7 +22,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     
     const [token, setTokenState] = useState<string | null>(() => {
         return localStorage.getItem('authToken');
@@ -84,9 +84,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
 }
 
-export default AuthProvider;
-
-
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
@@ -94,3 +91,5 @@ export const useAuth = () => {
     }
     return context;
 };
+
+export default AuthProvider;
