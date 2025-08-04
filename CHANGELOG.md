@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.1](https://github.com/LBROCHARD/echalote/compare/0.2.1...0.2.2) (2025-08-04)
+## [0.2.1](https://github.com/LBROCHARD/echalote/compare/0.2.0...0.2.1) (2025-08-04)
 
 ### Hotfix
 
