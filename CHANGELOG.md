@@ -4,7 +4,7 @@
 
 ### Hotfix
 
-* added an explicit error message when trying to connect to an account that does not exist ([befc556](https://github.com/LBROCHARD/echalote/commit/befc55629fdcf3414a90862f95fa85e364e22498))
+* added an explicit error message when trying to connect to an account that does not exist ([befc556](https://github.com/LBROCHARD/echalote/commit/befc55629fdcf3414a90862f95fa85e364e22498)) => fixed issue [#12](https://github.com/LBROCHARD/echalote/issues/12)
 
 
 ## [0.2.0](https://github.com/LBROCHARD/echalote/compare/0.1.0...0.2.0) (2025-07-19)
