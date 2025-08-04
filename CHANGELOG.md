@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/LBROCHARD/echalote/compare/0.2.0...0.2.1) (2025-08-04)
+
+### Hotfix
+
+* added an explicit error message when trying to connect to an account that does not exist ([befc556](https://github.com/LBROCHARD/echalote/commit/befc55629fdcf3414a90862f95fa85e364e22498))
+
+
 ## [0.2.0](https://github.com/LBROCHARD/echalote/compare/0.1.0...0.2.0) (2025-07-19)
 
 ### Features
