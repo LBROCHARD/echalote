@@ -54,11 +54,10 @@ const RegisterForm = () => {
 
       if (!response.ok ) {
         if ([401, 403].indexOf(response.status) !== -1) {
-          console.log("Unauthorized");
-          setFetchError(`Response status:  ${response.status}`);
+          setFetchError("This user does not exist, or the password is incorrect");
           return
         }
-        throw new Error(`Response status: ${response.status}`);
+        throw new Error(`Response status text: ${response.status}`);
       }
       const json = await response.json();
       console.log("result : ", json);
@@ -119,10 +118,10 @@ const RegisterForm = () => {
               </FormItem>
             )}
           />
+          <p className="text-red-600">{fetchError}</p>
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      <p>{fetchError}</p>
     </>
   )
 }
