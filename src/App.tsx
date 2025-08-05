@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Layout from "./layout/Layout";
-import ConnexionPage from "./pages/ConnexionPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MainContent from "./components/MainContent";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
 
@@ -14,7 +15,8 @@ function App() {
                     <Route path="/page" element={<MainContent/>}></Route>
                     <Route path="/account" element={<p>account</p>}></Route>
                 </Route>
-                <Route path="/connexion" element={<ConnexionPage/>}></Route>
+                <Route path="/login" element={<LoginPage/>}></Route>
+                <Route path="/register" element={<RegisterPage/>}></Route>
                 <Route path="*" element={<NotFoundPage/>}></Route>
             </Routes>
         </BrowserRouter>

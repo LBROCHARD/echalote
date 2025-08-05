@@ -74,7 +74,8 @@ const RegisterForm = () => {
   }
 
   return (
-    <>
+    <div className="items-center justify-center">
+      <h1>Log-in to your account :</h1>
       <Toaster/>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -122,7 +123,7 @@ const RegisterForm = () => {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-    </>
+    </div>
   )
 }
 
