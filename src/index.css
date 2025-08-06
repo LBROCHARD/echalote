@@ -135,5 +135,10 @@ body {
   a {
     @apply text-primary;
     @apply underline;
+    
+  }
+
+  button {
+    @apply m-2;
   }
 }
