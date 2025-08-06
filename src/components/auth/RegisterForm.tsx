@@ -63,7 +63,6 @@ const RegisterForm = () => {
 
   return (
     <div className="items-center justify-center">
-      <h1>Create a new account</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
