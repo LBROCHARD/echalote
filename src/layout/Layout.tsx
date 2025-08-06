@@ -13,7 +13,7 @@ const Layout = () => {
 
     useEffect(() => {
         if (!isAuthenticated) {
-            navigate("/connexion");
+            navigate("/login");
         }
     }, [isAuthenticated]);
 

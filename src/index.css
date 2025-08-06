@@ -126,4 +126,19 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  h1 {
+    @apply text-3xl;
+    @apply mb-10;
+  }
+
+  a {
+    @apply text-primary;
+    @apply underline;
+    
+  }
+
+  button {
+    @apply m-2;
+  }
 }

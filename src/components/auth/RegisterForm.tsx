@@ -5,6 +5,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { useState } from "react"
+import { useAuth } from "@/providers/AuthContext"
+import { Toaster } from "../ui/sonner"
+import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
  
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -16,6 +20,8 @@ const formSchema = z.object({
  
 const RegisterForm = () => {
   const API = import.meta.env.VITE_REACT_APP_API_URL
+  const {user, login} = useAuth();
+  const navigate = useNavigate();
 
   const [fetchError, setFetchError] = useState("");
 
@@ -27,15 +33,40 @@ const RegisterForm = () => {
       password: "",
     },
   })
+
+  const logIn = async (email: string, password: string) => {
+    try {
+      const response = await fetch(API + "/auth/login", {
+        method: "post",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: "",
+          email: email,
+          password: password
+        }) 
+      });
+
+      const json = await response.json();
+      console.log("result : ", json);
+      login(json.access_token, {username: json.username, email: json.username, id: json.id})
+      toast("Successfully logged in as : " + user?.username);
+      navigate("/")
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+        toast("Error trying to login: " + error.message)
+      }
+    }
+  }
  
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
-
+    setFetchError(""); // this is used to show the error reloads when trying again
     try {
       const response = await fetch(API + "/auth/signup", {
         method: "post",
         headers: {
-          // 'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -45,25 +76,26 @@ const RegisterForm = () => {
         })
       });
       if (!response.ok ) {
-        if ([401, 403].indexOf(response.status) !== -1) {
-          console.log("Unauthorized");
-          setFetchError(`Response status:  ${response.status}`);
+        if ([400].indexOf(response.status) !== -1) {
+          setFetchError(`Can't create an account with this username or email adress.`);
           return
         }
         throw new Error(`Response status: ${response.status}`);
       }
       const json = await response.json();
-      console.log(json);
+      console.log("json = ", json);
+      logIn(values.email, values.password);
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
+        setFetchError(`Response status:  ${error.message}`);
       }
     }
   }
 
   return (
     <div className="items-center justify-center">
-      <h1>Create a new account</h1>
+      <Toaster/>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -105,10 +137,10 @@ const RegisterForm = () => {
               </FormItem>
             )}
           />
+          <p className="text-red-600">{fetchError}</p>
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      <p>{fetchError}</p>
     </div>
   )
 }

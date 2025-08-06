@@ -11,9 +11,6 @@ import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 
 const formSchema = z.object({
-//   username: z.string().min(2, {
-//     message: "Username must be at least 2 characters.",
-//   }),
   email: z.string().email({message: "Please enter a valid email"}).min(3),
   password: z.string().min(8, {message: "The password must be at least 8 characters"})
 })
@@ -29,16 +26,13 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-    // To be used later for email/username auth
-    //   username: "",
       email: "",
       password: "",
     },
   })
  
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
-
+    setFetchError(""); // this is used to show the error reloads when trying again
     try {
       const response = await fetch(API + "/auth/login", {
         method: "post",
@@ -61,7 +55,7 @@ const RegisterForm = () => {
       }
       const json = await response.json();
       console.log("result : ", json);
-      login(json.access_token, {username: json.username, email: json.username})
+      login(json.access_token, {username: json.username, email: json.username, id: json.id})
       toast("Successfully logged in as : " + user?.username);
       navigate("/")
 
@@ -75,24 +69,9 @@ const RegisterForm = () => {
 
   return (
     <div className="items-center justify-center">
-      <h1>Log-in to your account :</h1>
       <Toaster/>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {// To be used later for email/username auth
-          /* <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="username" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
           <FormField
             control={form.control}
             name="email"
