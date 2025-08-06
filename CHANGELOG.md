@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.1](https://github.com/LBROCHARD/echalote/compare/0.3.0...0.3.1) (2025-08-06)
+
+### Bug Fixes
+
+* updated CD ([23dc015](https://github.com/LBROCHARD/echalote/commit/23dc0152339f96a7575ef8328a419cc892b66582))
+
 ## [0.3.0](https://github.com/LBROCHARD/echalote/compare/0.2.1...0.3.0) (2025-08-06)
 
 ### Features
