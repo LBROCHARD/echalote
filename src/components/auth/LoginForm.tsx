@@ -37,8 +37,7 @@ const RegisterForm = () => {
   })
  
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
-
+    setFetchError(""); // this is used to show the error reloads when trying again
     try {
       const response = await fetch(API + "/auth/login", {
         method: "post",
