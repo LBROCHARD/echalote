@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0](https://github.com/LBROCHARD/echalote/compare/0.2.1...0.3.0) (2025-08-06)
+
+### Features
+
+* can delete account ([b28f464](https://github.com/LBROCHARD/echalote/commit/b28f464e134d8aa55315ba427bc654bac64c5f92))
+* can delete account ([53d4ef5](https://github.com/LBROCHARD/echalote/commit/53d4ef5cd2b1bd71709d6c7b12346f6f16518f5f))
+* created account page ([38bcf55](https://github.com/LBROCHARD/echalote/commit/38bcf551fa250b2b1b217ba201f54a663fd164a9))
+* created the login and register pages ([3768816](https://github.com/LBROCHARD/echalote/commit/37688163387fbfdd3100926e66c4fee49de9d5c7))
+* explicit error when trying to create an account that allready exist ([8466eaa](https://github.com/LBROCHARD/echalote/commit/8466eaa5f74e2c54eaaf65643ad0c058d0cd30df))
+* setup global CSS variables ([30e3550](https://github.com/LBROCHARD/echalote/commit/30e3550e53ee229113338d8bbc7b19811f590f47))
+* updated CD ([63a9f0e](https://github.com/LBROCHARD/echalote/commit/63a9f0efa9da8f1e0a436ae2731ba1a39ca2d7ce))
+
+### Bug Fixes
+
+* removed code to connect with username ([00ee192](https://github.com/LBROCHARD/echalote/commit/00ee192c23f9897ec4996eda931b35ad598b69d2))
+
 ## [0.2.1](https://github.com/LBROCHARD/echalote/compare/0.2.0...0.2.1) (2025-08-04)
 
 ### Hotfix
