@@ -11,9 +11,6 @@ import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 
 const formSchema = z.object({
-//   username: z.string().min(2, {
-//     message: "Username must be at least 2 characters.",
-//   }),
   email: z.string().email({message: "Please enter a valid email"}).min(3),
   password: z.string().min(8, {message: "The password must be at least 8 characters"})
 })
@@ -29,8 +26,6 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-    // To be used later for email/username auth
-    //   username: "",
       email: "",
       password: "",
     },
@@ -77,20 +72,6 @@ const RegisterForm = () => {
       <Toaster/>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          {// To be used later for email/username auth
-          /* <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="username" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
           <FormField
             control={form.control}
             name="email"
