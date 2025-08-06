@@ -1,5 +1,5 @@
-import ProjectsBar from "@/components/ProjectsBar";
-import TopBar from "@/components/TopBar";
+import ContentSideBar from "@/components/ContentSideBar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useAuth } from "@/providers/AuthContext";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
@@ -19,9 +19,13 @@ const Layout = () => {
 
     return (
         <>
-            <TopBar/>
-            <ProjectsBar/>
-            <Outlet/>
+            <SidebarProvider>
+                <ContentSideBar/>
+                <main>
+                    <SidebarTrigger />
+                    <Outlet/>
+                </main>
+            </SidebarProvider>
         </>
     )
 }
