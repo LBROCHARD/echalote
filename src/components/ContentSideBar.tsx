@@ -1,18 +1,20 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarMenuButton } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar"
 import logo from '/SuperNotes_icon.png';
 import userIcon from '/User.png';
 import { Link } from "react-router-dom"
 import { useAuth } from "@/providers/AuthContext";
 import { useEffect, useState } from "react";
-import { Group, useBreadCrumb } from "@/providers/BreadCrumbContext";
+import { Group, useGroupContext } from "@/providers/GroupContext";
 import { toast } from "sonner";
 import ModifyGroupDialog from "./group/ModifyGroupDialog";
 import CreateGroupForm from "./group/CreateGroupForm";
+import { Button } from "./ui/button";
+import AddMemberForm from "./group/AddMemberForm";
 
 
 const ContentSideBar = () => {
     const { user, token } = useAuth();
-    const { selectedPage, selectedGroup, setSelectedPage, setSelectedGroup } = useBreadCrumb();
+    const { selectedGroup, selectedGroupMembers, setSelectedGroup } = useGroupContext();
 
     const [groups, setgroups] = useState<Group[]>([]);
 
@@ -76,23 +78,28 @@ const ContentSideBar = () => {
                 </SidebarHeader>
 
                 <SidebarContent>
-                    <SidebarGroup>
+                    <SidebarGroup className="p-0">
                         {groups.map((item) => (
-                            <SidebarMenuButton
-                                tooltip={{
-                                    children: item.groupName,
-                                    hidden: false,
-                                }}
-                                className="ml-0 text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg cursor-pointer"
-                                style={{ backgroundColor: item.groupColor }}
-                                onClick={() => setSelectedGroup({
-                                    id: item.id,
-                                    groupName: item.groupName,
-                                    groupColor: item.groupColor,
-                                })}
+                            <div 
+                                className={ selectedGroup?.id == item.id ? "bg-background-darker" : "bg-transparent"}
+                                // style={ selectedGroup?.id == item.id ? {backgroundColor: "lightgrey"} : {backgroundColor: "transparent"}}
                             >
-                                <p>{item.groupName.substring(0,2)}</p>
-                            </SidebarMenuButton>
+                                <SidebarMenuButton
+                                    tooltip={{
+                                        children: item.groupName,
+                                        hidden: false,
+                                    }}
+                                    className=" text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg cursor-pointer"
+                                    style={{backgroundColor: item.groupColor}}
+                                    onClick={() => setSelectedGroup({
+                                        id: item.id,
+                                        groupName: item.groupName,
+                                        groupColor: item.groupColor,
+                                    })}
+                                >
+                                    <p>{item.groupName.substring(0,2)}</p>
+                                </SidebarMenuButton>
+                            </div>
                         ))}
                     </SidebarGroup>
                 </SidebarContent>
@@ -146,7 +153,14 @@ const ContentSideBar = () => {
                     <SidebarGroup className="px-0">
                         <SidebarGroupLabel>Members</SidebarGroupLabel>
                         <SidebarGroupContent>
-
+                            {selectedGroupMembers.map((member) => (
+                                <SidebarMenuItem key={member.id}>
+                                    <SidebarMenuButton asChild>
+                                        <p>{member.username}</p>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                            <AddMemberForm/>
                         </SidebarGroupContent>
                     </SidebarGroup>
                 </SidebarContent>

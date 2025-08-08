@@ -4,13 +4,13 @@ import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import z from "zod";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useBreadCrumb } from "@/providers/BreadCrumbContext";
 import DeleteGroupDialog from "./DeleteGroupDialog";
+import { useGroupContext } from "@/providers/GroupContext";
 
 const formSchema = z.object({
     groupName: z.string()
@@ -23,7 +23,7 @@ const formSchema = z.object({
 
 const ModifyGroupDialog = () => {
     const {token} = useAuth();
-    const {selectedGroup} = useBreadCrumb();
+    const {selectedGroup} = useGroupContext();
 
     const API = import.meta.env.VITE_REACT_APP_API_URL
     const navigate = useNavigate();
@@ -37,7 +37,6 @@ const ModifyGroupDialog = () => {
     // const groupColorInput = useRef<React.ComponentProps<"input">>(null);
 
     useEffect( () => {
-        console.log("AAAAH : ")
         if (selectedGroup != null ){
             // if (groupNameInput.current && groupColorInput.current) {
             //     setValue("groupNameInput", selectedGroup.groupName);
@@ -48,7 +47,6 @@ const ModifyGroupDialog = () => {
             // }
             // console.log("AAAAH : get fucked regular")
             // setValue("groupNameInput", selectedGroup.groupName);
-            console.log("AAAAH : oui")
         } 
     }, [selectedGroup])
 
@@ -98,10 +96,6 @@ const ModifyGroupDialog = () => {
                 toast("Error trying to modify a group : " + error.message)
             }
         }
-    }
-
-    const onDeleteGroup = () => {
-        
     }
     
 
