@@ -77,8 +77,8 @@ const CreateGroupForm = () => {
             <Dialog>
                 <DialogTrigger className="m-0">
                     
-                    <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0" tooltip={{children: "Create a new group", hidden: false,}}>
-                        <div className="bg-primary hover:bg-secondary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg cursor-pointer">
+                    <SidebarMenuButton asChild className="hover:bg-primary rounded-lg" tooltip={{children: "Create a new group", hidden: false,}}>
+                        <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg cursor-pointer">
                             <p>+</p>
                         </div>
                     </SidebarMenuButton>

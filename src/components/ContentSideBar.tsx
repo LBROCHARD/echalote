@@ -1,6 +1,7 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarMenuButton, SidebarMenuItem, } from "@/components/ui/sidebar"
 import logo from '/SuperNotes_icon.png';
 import userIcon from '/User.png';
+import { X } from 'lucide-react';
 import { Link } from "react-router-dom"
 import { useAuth } from "@/providers/AuthContext";
 import { useEffect, useState } from "react";
@@ -8,8 +9,9 @@ import { Group, useGroupContext } from "@/providers/GroupContext";
 import { toast } from "sonner";
 import ModifyGroupDialog from "./group/ModifyGroupDialog";
 import CreateGroupForm from "./group/CreateGroupForm";
-import { Button } from "./ui/button";
 import AddMemberForm from "./group/AddMemberForm";
+import { Button } from "./ui/button";
+import DeleteMemberDialog from "./group/DeleteMemberDialog";
 
 
 const ContentSideBar = () => {
@@ -107,7 +109,7 @@ const ContentSideBar = () => {
                 <SidebarFooter>
                     <CreateGroupForm/>
 
-                    <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0" tooltip={{children: "Go to " + user?.username + " account page", hidden: false,}}>
+                    <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0 " tooltip={{children: "Go to " + user?.username + " account page", hidden: false,}}>
                         <Link to="/account" className="flex aspect-square size-8 items-center justify-center rounded-lg">
                             <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                                 <img src={userIcon} alt={user?.username + " account"}/>
@@ -155,8 +157,9 @@ const ContentSideBar = () => {
                         <SidebarGroupContent>
                             {selectedGroupMembers.map((member) => (
                                 <SidebarMenuItem key={member.id}>
-                                    <SidebarMenuButton asChild>
-                                        <p>{member.username}</p>
+                                    <SidebarMenuButton className="flex justify-between">
+                                        <p>{"• " + member.username}</p> 
+                                        <DeleteMemberDialog username={member.username} groupID={selectedGroup?.id}/>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}

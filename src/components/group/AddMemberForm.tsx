@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { SidebarMenuButton } from "../ui/sidebar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -40,8 +40,6 @@ const AddMemberForm = () => {
             if (selectedGroup == null ) {
                 throw new Error(`No group selected`);
             }
-
-            toast("groupid : " + selectedGroup.id + " username: " + values.username)
 
             const response = await fetch(API + "/group/member", {
                 method: "post",
@@ -84,8 +82,8 @@ const AddMemberForm = () => {
             <Dialog>
                 <DialogTrigger>
                     
-                    <SidebarMenuButton size="lg" asChild>
-                        <div className="bg-primary hover:bg-secondary text-sidebar-primary-foreground flex items-center justify-center rounded-lg cursor-pointer">
+                    <SidebarMenuButton asChild className="hover:bg-primary">
+                        <div className="bg-primary  text-sidebar-primary-foreground flex items-center justify-center rounded-lg cursor-pointer">
                             <p>Add a new member</p>
                         </div>
                     </SidebarMenuButton>

@@ -42,7 +42,7 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
     const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
 
     const [selectedGroupMembers, setSelectedGroupMembers] = useState<GroupMember[]>([]);
-    const [selectedGroupPages, setSelectedGroupPagess] = useState<GroupPage[]>([]);
+    const [selectedGroupPages, setSelectedGroupPages] = useState<GroupPage[]>([]);
 
     const [selectedPage, setSelectedPage] = useState<string | null>(null);
 
@@ -59,6 +59,7 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
     useEffect(() => {
         console.log("selectedGroup or selectedPage changed !")
         getGroupMembers();
+        getGroupPages();
     }, [selectedGroup, selectedPage]);
 
 
@@ -92,6 +93,11 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
             }
         }
     } 
+
+    const getGroupPages = async () => { 
+        setSelectedGroupPages([]);
+    }
+
 
     return (
         <GroupContext.Provider value={contextValue}>
