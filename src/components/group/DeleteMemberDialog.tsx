@@ -3,7 +3,6 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import { Button } from "../ui/button";
 import { toast, Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useGroupContext } from "@/providers/GroupContext";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
@@ -14,7 +13,6 @@ interface DeleteMemberDialogProps {
 
 const DeleteMemberDialog = (props: DeleteMemberDialogProps) => {
     const {token} = useAuth();
-    const {selectedGroup} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
     const navigate = useNavigate();
 

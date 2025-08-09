@@ -1,7 +1,6 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarMenuButton, SidebarMenuItem, } from "@/components/ui/sidebar"
 import logo from '/SuperNotes_icon.png';
 import userIcon from '/User.png';
-import { X } from 'lucide-react';
 import { Link } from "react-router-dom"
 import { useAuth } from "@/providers/AuthContext";
 import { useEffect, useState } from "react";
@@ -10,7 +9,6 @@ import { toast } from "sonner";
 import ModifyGroupDialog from "./group/ModifyGroupDialog";
 import CreateGroupForm from "./group/CreateGroupForm";
 import AddMemberForm from "./group/AddMemberForm";
-import { Button } from "./ui/button";
 import DeleteMemberDialog from "./group/DeleteMemberDialog";
 
 
