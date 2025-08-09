@@ -10,11 +10,12 @@ import ModifyGroupDialog from "./group/ModifyGroupDialog";
 import CreateGroupForm from "./group/CreateGroupForm";
 import AddMemberForm from "./group/AddMemberForm";
 import DeleteMemberDialog from "./group/DeleteMemberDialog";
+import AddPageForm from "./pages/AddPageForm";
 
 
 const ContentSideBar = () => {
     const { user, token } = useAuth();
-    const { selectedGroup, selectedGroupMembers, setSelectedGroup } = useGroupContext();
+    const { selectedGroup, setSelectedPage, selectedGroupMembers, selectedGroupPages, setSelectedGroup } = useGroupContext();
 
     const [groups, setgroups] = useState<Group[]>([]);
 
@@ -82,7 +83,6 @@ const ContentSideBar = () => {
                         {groups.map((item) => (
                             <div 
                                 className={ selectedGroup?.id == item.id ? "bg-background-darker" : "bg-transparent"}
-                                // style={ selectedGroup?.id == item.id ? {backgroundColor: "lightgrey"} : {backgroundColor: "transparent"}}
                             >
                                 <SidebarMenuButton
                                     tooltip={{
@@ -120,8 +120,8 @@ const ContentSideBar = () => {
 
 
             <Sidebar collapsible="none" className="hidden flex-1 md:flex">
-                <SidebarHeader className="gap-3.5 border-b p-4">
-                    <div className="flex w-full items-center justify-center">
+                <SidebarHeader className="gap-1 border-b pl-4 pr-4 ">
+                    <div className="flex w-full items-center justify-center m-0 p-0">
                         {selectedGroup?.groupName}
                         <ModifyGroupDialog/>
                     </div>
@@ -132,37 +132,27 @@ const ContentSideBar = () => {
                     <SidebarGroup className="px-0">
                         <SidebarGroupLabel>Pages</SidebarGroupLabel>
                         <SidebarGroupContent>
-                        {/* {mails.map((mail) => (
-                            <a
-                            href="#"
-                            key={mail.email}
-                            className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex flex-col items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0"
-                            >
-                            <div className="flex w-full items-center gap-2">
-                                <span>{mail.name}</span>{" "}
-                                <span className="ml-auto text-xs">{mail.date}</span>
-                            </div>
-                            <span className="font-medium">{mail.subject}</span>
-                            <span className="line-clamp-2 w-[260px] text-xs whitespace-break-spaces">
-                                {mail.teaser}
-                            </span>
-                            </a>
-                        ))} */}
+                            {selectedGroupPages.map((page) => (
+                                <SidebarMenuItem key={page.id}>
+                                    <SidebarMenuButton className="m-0 p-0" onClick={() => {setSelectedPage(page)}}>
+                                        <Link to={"/page"} className="p-2 w-full text-foreground no-underline">
+                                            <p>{"•  " + page.pageName}</p> 
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                            <AddPageForm/>
                         </SidebarGroupContent>
                     </SidebarGroup>
                     <SidebarGroup className="px-0">
                         <SidebarGroupLabel>Members</SidebarGroupLabel>
                         <SidebarGroupContent>
                             {selectedGroupMembers.map((member) => (
-                                <SidebarMenuItem key={member.id}>
-                                    <SidebarMenuButton className="flex justify-between">
-                                        <p>{"• " + member.username}</p> 
-                                        <DeleteMemberDialog username={member.username} groupID={selectedGroup?.id}/>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
+                                <DeleteMemberDialog username={member.username} groupID={selectedGroup?.id}/>
                             ))}
                             <AddMemberForm/>
                         </SidebarGroupContent>
+                        
                     </SidebarGroup>
                 </SidebarContent>
 

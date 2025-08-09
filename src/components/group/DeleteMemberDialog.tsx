@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { toast, Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 
 interface DeleteMemberDialogProps {
     username: string;
@@ -60,15 +60,13 @@ const DeleteMemberDialog = (props: DeleteMemberDialogProps) => {
         <>
             <Toaster/>
             <Dialog>
-                <DialogTrigger className="m-0">
-
-                    <Button 
-                        className="m-0 ml-2 p-0 pl-1 pr-1 bg-transparent hover:bg-transparent text-red-500 hover:text-red-800 shadow-none cursor-pointer"
-                    >
-                        <X/>
-                    </Button>
-
-                </DialogTrigger>
+                <SidebarMenuItem key={props.groupID} className="list-none m-0 p-0 mb-0">
+                    <SidebarMenuButton className="m-0 p-0">
+                        <DialogTrigger className="m-0 flex justify-start items-center bg-transparent hover:bg-transparent w-full h-full">
+                            <p className="ml-2">{"•  " + props.username}</p>
+                        </DialogTrigger>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
 
                 <DialogContent>
                     <DialogHeader>

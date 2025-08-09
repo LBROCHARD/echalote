@@ -22,7 +22,7 @@ const Layout = () => {
                 <GroupContextProvider>
                     <ContentSideBar/>
                     <main className="flex flex-col h-screen w-full">
-                        <SidebarTrigger/>
+                        <SidebarTrigger className="absolute mt-6"/>
                         <Outlet/>
                     </main>
                 </GroupContextProvider>

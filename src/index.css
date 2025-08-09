@@ -152,6 +152,7 @@ body {
 
   button {
     @apply m-2;
+    @apply cursor-pointer;
   }
 }
 
