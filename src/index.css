@@ -21,6 +21,7 @@ body {
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
+  --color-background-darker: var(--background-darker);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -55,15 +56,26 @@ body {
 :root {
   --radius: 0.65rem;
   --background: oklch(1 0 0);
+  --background-darker: oklch(90.06% 0.0001 271.152);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
+
+  
+  /* OLD
   --primary: oklch(0.623 0.214 259.815);
   --primary-foreground: oklch(0.97 0.014 254.604);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
+  */
+
+  --primary: oklch(0.70 0.09 240.0);
+  --primary-foreground: oklch(0.97 0.014 254.604);
+  --secondary: oklch(0.77 0.10 139.0);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
   --accent: oklch(0.967 0.001 286.375);
@@ -89,6 +101,7 @@ body {
 
 .dark {
   --background: oklch(0.141 0.005 285.823);
+  --background-darker: oklch(27.763% 0.00366 286.039);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.985 0 0);
@@ -121,7 +134,6 @@ body {
   --sidebar-ring: oklch(0.488 0.243 264.376);
 }
 
-
 @layer base {
   body {
     @apply bg-background text-foreground;
@@ -135,10 +147,19 @@ body {
   a {
     @apply text-primary;
     @apply underline;
-    
+
   }
 
   button {
     @apply m-2;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

@@ -5,6 +5,7 @@ import MainContent from "./components/MainContent";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AccountComponent from "./components/AccountComponent";
+import HomeComponent from "./components/HomeComponent";
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
         <BrowserRouter>
             <Routes>    
                 <Route path="/" element={<Layout/>}>
-                    <Route path="/" element={<p>main page</p>}></Route>
+                    <Route path="/" element={<HomeComponent/>}></Route>
                     <Route path="/page" element={<MainContent/>}></Route>
                     <Route path="/account" element={<AccountComponent/>}></Route>
                 </Route>
