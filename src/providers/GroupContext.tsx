@@ -18,6 +18,7 @@ export interface Page {
     pageName: string;
     pageColor: string;
     content: string;
+    tags: string;
 }
 
 interface GroupContextType {

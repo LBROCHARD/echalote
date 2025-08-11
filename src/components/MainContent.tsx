@@ -1,50 +1,157 @@
 import { useGroupContext } from "@/providers/GroupContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+import { useAuth } from "@/providers/AuthContext";
+import { toast, Toaster } from "sonner";
+import ModifyPageDialog from "./pages/ModifyPageDialog";
+import { BookOpen, PencilLine, Save } from "lucide-react";
+import Markdown from 'react-markdown'
+
 
 const MainContent = () => {
-    const {selectedPage} = useGroupContext();
+    const API = import.meta.env.VITE_REACT_APP_API_URL
+    const {selectedPage, selectedGroup} = useGroupContext();
+    const { token } = useAuth();
     const navigate = useNavigate();
+
+    const [pageContent, setPageContent] = useState(selectedPage?.content);
+    const [isSaveBtnShown, setIsSaveBtnShown] = useState(false);
+
+    const [isEditMode, setIsEditMode] = useState(true);
 
     useEffect(() => {
         if (selectedPage == null ) {
             navigate("/")
+            
+        } else {
+            setPageContent(selectedPage?.content);
         }
     }, []);
 
-    const tags = [
-        "cool",
-        "very_great",
-        "code",
-        "important"
-    ]
+    useEffect(() => {
+        if (selectedPage != null) {
+            setPageContent(selectedPage?.content);
+        }
+        setIsSaveBtnShown(false);
+    }, [selectedPage]);
+
+    function SaveButton() {
+        if (isSaveBtnShown) {
+            return (
+                <Button onClick={updatePageContent} className="m-0">
+                    <Save/>
+                    Save Modifications
+                </Button>
+            )
+        }
+        return;
+    }
+
+    const changeEditMode = (isEdit: boolean) => {
+        setIsEditMode(isEdit);
+    }
+
+    function EditBtnContent() {
+        if (isEditMode) {
+            return(
+                <>
+                    <PencilLine />
+                    Edit mode
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <BookOpen />
+                    Reading mode
+                </>
+            )
+        }
+    }
+
+    const updatePageContent = async () => {
+        try {
+            const response = await fetch(API + "/pages/content", {
+                method: "put",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    groupId: selectedGroup?.id,
+                    pageId: selectedPage?.id,
+                    pageContent: pageContent,
+                })
+            });
+
+            if (!response.ok ) {
+                throw new Error(`Response status text: ${response.status}`);
+            }
+
+            const json = await response.json();
+            console.log("response : ", json);
+            toast("Content saved !")
+
+            setIsSaveBtnShown(false);
+
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error(error.message);
+                toast(error.message)
+            }
+        }
+    }
 
     return (
-        <>
+        <div className="flex flex-col h-full">
+            <Toaster/>
             <div 
                 className="h-auto shadow-xl"
                 style={{backgroundColor: "#" + selectedPage?.pageColor}}
             >
-                <h1 className="text-white font-bold m-0 mt-5 ml-12">{selectedPage?.pageName}</h1>
+                <div className="w-full flex flex-row items-center">
+                    <h1 className="text-white font-bold m-0 mt-5 ml-12">{selectedPage?.pageName}</h1>
+                    <ModifyPageDialog/>
+                </div>
                 <div className="m-2 h-8 ml-12 flex items-center flex-row">
                     <ul className="flex">
-                        {tags.map((tag) => ( 
-                            // TODO : remplacer les texts par 
+                        {selectedPage?.tags.split(" ").map((tag) => (
                             <p className=" text-white mr-3">{"#" + tag}</p>
                         ))}
-                        <Button className="m-0 p-0 h-auto aspect-square bg-transparent hover:bg-transparent hover:text-black text-center shadow-none">
-                            +
-                        </Button>
                     </ul>
                 </div>
             </div>
 
-            <div>
-                <p className="m-5">{selectedPage?.content}</p>
+            <div className="p-5 pb-1 flex flex-col h-full content-center justify-center items-center ">
+                <div className="w-full h-auto p-0 m-0 mb-5 flex flex-row justify-between content-center">
+                    <Button onClick={() => { changeEditMode(!isEditMode) } } className="m-0">
+                        <EditBtnContent/>
+                    </Button>
+
+                    <SaveButton/>
+                </div>
+
+                <div className="h-full w-full" hidden={!isEditMode}> 
+                    <Markdown>
+                        {pageContent}
+                    </Markdown>
+                </div>
+                <Textarea
+                    hidden={isEditMode}
+                    className="ml-5 mr-5 pl-6 pt-4 h-full bg-accent border-transparent border-0 shadow-none rounded-m resize-none"
+                    value={pageContent}
+                    onChange={(event) => { 
+                        setPageContent(event.target.value);
+                        if (selectedPage!= null && selectedPage?.content != event.target.value) {
+                            setIsSaveBtnShown(true);
+                        }
+                    }}
+                    placeholder="Write something !"
+                />
             </div>
-        </>
+        </div>
     );
 }
 
