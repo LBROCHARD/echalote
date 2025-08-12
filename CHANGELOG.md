@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/LBROCHARD/echalote/compare/0.4.0...0.4.1) (2025-08-12)
+
+### Bug Fixes
+
+* fixed page reload ([93d82b3](https://github.com/LBROCHARD/echalote/commit/93d82b351a5054abf0d2cb795221ffc1f77bd01f))
+* tags ([2cb7803](https://github.com/LBROCHARD/echalote/commit/2cb78036d7a1360ce09e0e8835d28f888c489f56))
+
 ## [0.4.0](https://github.com/LBROCHARD/echalote/compare/0.3.1...0.4.0) (2025-08-12)
 
 ### Features
