@@ -13,20 +13,22 @@ export interface GroupMember {
     email: string;
 }
 
-export interface GroupPage {
+export interface Page {
     id: string;
-    pageTitle: string;
+    pageName: string;
     pageColor: string;
+    content: string;
+    tags: string;
 }
 
 interface GroupContextType {
     selectedGroup: Group | null;
     setSelectedGroup: (token: Group | null) => void;
     selectedGroupMembers: GroupMember[];
-    selectedGroupPages: GroupPage[];
+    selectedGroupPages: Page[];
 
-    selectedPage: string | null;
-    setSelectedPage: (token: string | null) => void;
+    selectedPage: Page | null;
+    setSelectedPage: (token: Page | null) => void;
 }
 
 const GroupContext = createContext<GroupContextType | undefined>(undefined);
@@ -42,9 +44,9 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
     const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
 
     const [selectedGroupMembers, setSelectedGroupMembers] = useState<GroupMember[]>([]);
-    const [selectedGroupPages, setSelectedGroupPages] = useState<GroupPage[]>([]);
+    const [selectedGroupPages, setSelectedGroupPages] = useState<Page[]>([]);
 
-    const [selectedPage, setSelectedPage] = useState<string | null>(null);
+    const [selectedPage, setSelectedPage] = useState<Page | null>(null);
 
     const contextValue: GroupContextType = {
         selectedGroup,
@@ -95,7 +97,34 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
     } 
 
     const getGroupPages = async () => { 
-        setSelectedGroupPages([]);
+        try {
+            if (selectedGroup == null) {
+                throw new Error(`No group selected`);
+            }
+            
+            const response = await fetch(API + "/pages/from-group/" + selectedGroup.id, {
+                method: "get",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            if (!response.ok ) {
+                if ([401, 403].indexOf(response.status) !== -1) {
+                    throw new Error(`Response status text: ${response.status}`);
+                }
+            }
+
+            const json = await response.json();
+            console.log("result : ", json);
+            setSelectedGroupPages(json);
+
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error(error.message);
+            }
+        }
     }
 
 
