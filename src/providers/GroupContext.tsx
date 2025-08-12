@@ -29,6 +29,8 @@ interface GroupContextType {
 
     selectedPage: Page | null;
     setSelectedPage: (token: Page | null) => void;
+
+    rechargeBarContent: () => void;
 }
 
 const GroupContext = createContext<GroupContextType | undefined>(undefined);
@@ -48,6 +50,11 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
 
     const [selectedPage, setSelectedPage] = useState<Page | null>(null);
 
+    const rechargeBarContent = () => {
+        getGroupMembers();
+        getGroupPages();
+    }
+
     const contextValue: GroupContextType = {
         selectedGroup,
         setSelectedGroup,
@@ -56,6 +63,8 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
 
         selectedPage,
         setSelectedPage,
+
+        rechargeBarContent,
     };
 
     useEffect(() => {
@@ -63,7 +72,6 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
         getGroupMembers();
         getGroupPages();
     }, [selectedGroup, selectedPage]);
-
 
     const getGroupMembers = async () => {
         try {
