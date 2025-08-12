@@ -2,9 +2,10 @@ import { useAuth } from "@/providers/AuthContext";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { toast, Toaster } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import { useState } from "react";
+import { useGroupContext } from "@/providers/GroupContext";
 
 interface DeleteMemberDialogProps {
     username: string;
@@ -14,7 +15,9 @@ interface DeleteMemberDialogProps {
 const DeleteMemberDialog = (props: DeleteMemberDialogProps) => {
     const {token} = useAuth();
     const API = import.meta.env.VITE_REACT_APP_API_URL
-    const navigate = useNavigate();
+    const {rechargeGroupContent} = useGroupContext();
+
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const onDeleteMember = async () => {
         try {
@@ -45,7 +48,9 @@ const DeleteMemberDialog = (props: DeleteMemberDialogProps) => {
             const json = await response.json();
             console.log("result : ", json);
             toast("User " + props.username + " was successfully removed from the group !");
-            navigate(0); // refresh the page
+            setDialogOpen(false);
+            rechargeGroupContent(); 
+
 
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -59,16 +64,19 @@ const DeleteMemberDialog = (props: DeleteMemberDialogProps) => {
     return (
         <>
             <Toaster/>
-            <Dialog>
+            <Dialog open={dialogOpen}>
                 <SidebarMenuItem key={props.groupID} className="list-none m-0 p-0 mb-0">
                     <SidebarMenuButton className="m-0 p-0">
-                        <DialogTrigger className="m-0 flex justify-start items-center bg-transparent hover:bg-transparent w-full h-full">
+                        <DialogTrigger 
+                            className="m-0 flex justify-start items-center bg-transparent hover:bg-transparent w-full h-full" 
+                            onClick={() => setDialogOpen(true)}
+                        >
                             <p className="ml-2">{"•  " + props.username}</p>
                         </DialogTrigger>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
 
-                <DialogContent>
+                <DialogContent showCloseButton={false}>
                     <DialogHeader>
                         <DialogTitle>Are you shure you want to remove this user from this group ?</DialogTitle>
                         <DialogDescription>This action cannot be undone !</DialogDescription>
@@ -76,7 +84,7 @@ const DeleteMemberDialog = (props: DeleteMemberDialogProps) => {
                         
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button>Cancel</Button>
+                                <Button type="button" onClick={() => setDialogOpen(false)}>Cancel</Button>
                             </DialogClose>
                             <Button onClick={onDeleteMember} className="bg-red-500 text-white cursor-pointer">Remove Member</Button>
                         </DialogFooter>

@@ -1,16 +1,20 @@
 import { useAuth } from "@/providers/AuthContext";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { toast, Toaster } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { useGroupContext } from "@/providers/GroupContext";
+import { useState } from "react";
 
+interface DeletePageDialogProps {
+    setParentDialogOpen: (isOpen: boolean) => void;
+}
 
-const DeletePageDialog = () => {
+const DeletePageDialog = (props: DeletePageDialogProps) => {
     const {token} = useAuth();
-    const {selectedGroup, selectedPage} = useGroupContext();
+    const {selectedGroup, selectedPage, rechargeGroupContent} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
-    const navigate = useNavigate();
+
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const onDeletePage = async () => {
         try {
@@ -37,7 +41,9 @@ const DeletePageDialog = () => {
             } else if (response.ok) {
                 console.log("Page deleted ");
                 toast("The Page was successfully deleted !");
-                navigate(0); // refresh the page
+                setDialogOpen(false);
+                props.setParentDialogOpen(false);
+                rechargeGroupContent();
             }
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -51,25 +57,23 @@ const DeletePageDialog = () => {
     return (
         <>
             <Toaster/>
-            <Dialog>
+            <Dialog open={dialogOpen}>
                 <DialogTrigger className="m-0">
 
-                    <Button  className="bg-red-500 text-white cursor-pointer">
+                    <Button type="button" className="bg-red-500 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
                         Delete Page
                     </Button>
 
                 </DialogTrigger>
 
-                <DialogContent>
+                <DialogContent showCloseButton={false}>
                     <DialogHeader>
                         <DialogTitle>Are you shure you want to delete this page ?</DialogTitle>
                         <DialogDescription>This action cannot be undone !</DialogDescription>
                     </DialogHeader>
                         
                         <DialogFooter>
-                            <DialogClose asChild>
-                                <Button>Cancel</Button>
-                            </DialogClose>
+                            <Button type="button" onClick={() => setDialogOpen(false)}>Cancel</Button>
                             <Button onClick={onDeletePage} className="bg-red-500 text-white cursor-pointer">Delete</Button>
                         </DialogFooter>
                             

@@ -3,9 +3,8 @@ import logo from '/SuperNotes_icon.png';
 import userIcon from '/User.png';
 import { Link } from "react-router-dom"
 import { useAuth } from "@/providers/AuthContext";
-import { useEffect, useState } from "react";
-import { Group, useGroupContext } from "@/providers/GroupContext";
-import { toast } from "sonner";
+import { useEffect } from "react";
+import { useGroupContext } from "@/providers/GroupContext";
 import ModifyGroupDialog from "./group/ModifyGroupDialog";
 import CreateGroupForm from "./group/CreateGroupForm";
 import AddMemberForm from "./group/AddMemberForm";
@@ -14,50 +13,11 @@ import AddPageForm from "./pages/AddPageForm";
 
 
 const ContentSideBar = () => {
-    const { user, token } = useAuth();
-    const { selectedGroup, setSelectedPage, selectedGroupMembers, selectedGroupPages, setSelectedGroup } = useGroupContext();
-
-    const [groups, setgroups] = useState<Group[]>([]);
-
-    const setGroupsFromFetch = async () => {
-        const API = import.meta.env.VITE_REACT_APP_API_URL
-        try {
-            const response = await fetch(API + "/group", {
-                method: "get",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            });
-
-            if (!response.ok ) {
-                throw new Error(`Response status text: ${response.status}`);
-            }
-            const json = await response.json();
-            console.log("groups : ", json);
-            setgroups(json);
-
-            // Defaults to the first group, to never be empty
-            if (json != null &&  json.length >= 1) {
-                setSelectedGroup({
-                    id: json[0].id,
-                    groupName: json[0].groupName,
-                    groupColor: json[0].groupColor,
-                }) 
-            } else {
-                toast("Error fetching groups, or no group where found")
-            }
-            // setSelectedPage(groups[0].serverName)
-
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error(error.message);
-            }
-        }
-    }
+    const { user } = useAuth();
+    const { groups, rechargeUserGroups, selectedGroup, setSelectedPage, selectedGroupMembers, selectedGroupPages, setSelectedGroup } = useGroupContext();
 
     useEffect(() =>{
-        setGroupsFromFetch();
+        rechargeUserGroups();
     }, []);
     
     return (
@@ -80,7 +40,7 @@ const ContentSideBar = () => {
 
                 <SidebarContent>
                     <SidebarGroup className="p-0">
-                        {groups.map((item) => (
+                        {groups?.map((item) => (
                             <div 
                                 className={ selectedGroup?.id == item.id ? "bg-background-darker" : "bg-transparent"}
                             >

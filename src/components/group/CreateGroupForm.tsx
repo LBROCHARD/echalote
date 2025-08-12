@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, Toaster } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { SidebarMenuButton } from "../ui/sidebar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useGroupContext } from "@/providers/GroupContext";
 
 const formSchema = z.object({
     groupName: z.string()
@@ -24,9 +24,11 @@ const formSchema = z.object({
 const CreateGroupForm = () => {
     const {token} = useAuth();
     const API = import.meta.env.VITE_REACT_APP_API_URL
-    const navigate = useNavigate();
+    const {rechargeUserGroups} = useGroupContext();
     
     const [fetchError, setFetchError] = useState("");
+    const [dialogOpen, setDialogOpen] = useState(false);
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -61,7 +63,9 @@ const CreateGroupForm = () => {
             const json = await response.json();
             console.log("result : ", json);
             toast("Group " + values.groupName + " was successfully created !");
-            navigate(0); // refresh the page
+            setDialogOpen(false);
+            rechargeUserGroups();
+
         } catch (error: unknown) {
             if (error instanceof Error) {
                 console.error(error.message);
@@ -74,17 +78,22 @@ const CreateGroupForm = () => {
     return (
         <>
             <Toaster/>
-            <Dialog>
+            <Dialog open={dialogOpen}>
                 <DialogTrigger className="m-0">
                     
-                    <SidebarMenuButton asChild className="hover:bg-primary rounded-lg" tooltip={{children: "Create a new group", hidden: false,}}>
+                    <SidebarMenuButton 
+                        asChild 
+                        className="hover:bg-primary rounded-lg" 
+                        tooltip={{children: "Create a new group", hidden: false,}} 
+                        onClick={() => setDialogOpen(true)}
+                    >
                         <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg cursor-pointer">
                             <p>+</p>
                         </div>
                     </SidebarMenuButton>
 
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent showCloseButton={false}>
                     <DialogHeader>
                         <DialogTitle>Create a new Group !</DialogTitle>
                     </DialogHeader>
@@ -120,9 +129,7 @@ const CreateGroupForm = () => {
                         <p className="text-red-600">{fetchError}</p>
                         
                         <DialogFooter>
-                            <DialogClose asChild>
-                                <Button>Close</Button>
-                            </DialogClose>
+                            <Button type="button" onClick={() => setDialogOpen(false)}>Close</Button>
                             <Button type="submit" variant="secondary">Confirm</Button>
                         </DialogFooter>
                             

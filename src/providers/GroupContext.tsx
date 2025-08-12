@@ -22,6 +22,9 @@ export interface Page {
 }
 
 interface GroupContextType {
+    groups: Group[] | null;
+    setGroups: (token: Group[]) => void;
+
     selectedGroup: Group | null;
     setSelectedGroup: (token: Group | null) => void;
     selectedGroupMembers: GroupMember[];
@@ -30,7 +33,8 @@ interface GroupContextType {
     selectedPage: Page | null;
     setSelectedPage: (token: Page | null) => void;
 
-    rechargeBarContent: () => void;
+    rechargeGroupContent: () => void;
+    rechargeUserGroups: () => void;
 }
 
 const GroupContext = createContext<GroupContextType | undefined>(undefined);
@@ -42,6 +46,8 @@ interface GroupContextProviderProps {
 export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ children }) => {
     const {token} = useAuth();
     const API = import.meta.env.VITE_REACT_APP_API_URL
+
+    const [groups, setGroups] = useState<Group[]>([]);
     
     const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
 
@@ -50,12 +56,19 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
 
     const [selectedPage, setSelectedPage] = useState<Page | null>(null);
 
-    const rechargeBarContent = () => {
+    const rechargeGroupContent = () => {
         getGroupMembers();
         getGroupPages();
     }
 
+    const rechargeUserGroups = () => {
+        getGroups();
+    }
+
     const contextValue: GroupContextType = {
+        groups,
+        setGroups,
+
         selectedGroup,
         setSelectedGroup,
         selectedGroupMembers,
@@ -64,7 +77,8 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
         selectedPage,
         setSelectedPage,
 
-        rechargeBarContent,
+        rechargeGroupContent,
+        rechargeUserGroups,
     };
 
     useEffect(() => {
@@ -72,6 +86,43 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
         getGroupMembers();
         getGroupPages();
     }, [selectedGroup, selectedPage]);
+
+    const getGroups = async () => {
+        try {
+            const response = await fetch(API + "/group", {
+                method: "get",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            if (!response.ok ) {
+                throw new Error(`Response status text: ${response.status}`);
+            }
+
+            const json = await response.json();
+            console.log("groups : ", json);
+            setGroups(json);
+
+            // Defaults to the first group, to never be empty
+            if (json != null &&  json.length >= 1) {
+                setSelectedGroup({
+                    id: json[0].id,
+                    groupName: json[0].groupName,
+                    groupColor: json[0].groupColor,
+                }) 
+            } else {
+                setSelectedGroup(null)
+            }
+            // setSelectedPage(groups[0].serverName)
+
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error(error.message);
+            }
+        }
+    } 
 
     const getGroupMembers = async () => {
         try {
@@ -124,9 +175,19 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
                 }
             }
 
-            const json = await response.json();
-            console.log("result : ", json);
+            const json: Page[] = await response.json();
+            console.log("group resukt : ", json);
             setSelectedGroupPages(json);
+            
+            let doesSelectedPageStillExist = false;
+            json.forEach(page => {
+                if (page.pageName == selectedPage?.pageName) {
+                    doesSelectedPageStillExist = true;
+                }
+            });
+            if (!doesSelectedPageStillExist && selectedGroupPages.length >= 1){
+                setSelectedPage(selectedGroupPages[0])
+            }
 
         } catch (error: unknown) {
             if (error instanceof Error) {

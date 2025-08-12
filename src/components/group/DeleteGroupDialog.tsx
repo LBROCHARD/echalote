@@ -1,16 +1,20 @@
 import { useAuth } from "@/providers/AuthContext";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { toast, Toaster } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { useGroupContext } from "@/providers/GroupContext";
+import { useState } from "react";
 
+interface DeleteGroupDialogProps {
+    setParentDialogOpen: (isOpen: boolean) => void;
+}
 
-const DeleteGroupDialog = () => {
+const DeleteGroupDialog = (props: DeleteGroupDialogProps) => {
     const {token} = useAuth();
-    const {selectedGroup} = useGroupContext();
+    const {selectedGroup, rechargeUserGroups} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
-    const navigate = useNavigate();
+
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const onDeleteGroup = async () => {
         try {
@@ -36,7 +40,10 @@ const DeleteGroupDialog = () => {
             } else if (response.ok) {
                 console.log("group deleted ");
                 toast("The group was successfully deleted !");
-                navigate(0); // refresh the page
+                setDialogOpen(false);
+                props.setParentDialogOpen(false);
+                rechargeUserGroups();
+
             }
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -50,25 +57,23 @@ const DeleteGroupDialog = () => {
     return (
         <>
             <Toaster/>
-            <Dialog>
+            <Dialog open={dialogOpen}>
                 <DialogTrigger className="m-0">
 
-                    <Button  className="bg-red-500 text-white cursor-pointer">
+                    <Button  className="bg-red-500 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
                         Delete Group
                     </Button>
 
                 </DialogTrigger>
 
-                <DialogContent>
+                <DialogContent showCloseButton={false}>
                     <DialogHeader>
                         <DialogTitle>Are you shure you want to delete this group ?</DialogTitle>
                         <DialogDescription>This action cannot be undone !</DialogDescription>
                     </DialogHeader>
                         
                         <DialogFooter>
-                            <DialogClose asChild>
-                                <Button>Cancel</Button>
-                            </DialogClose>
+                            <Button type="button" onClick={() => setDialogOpen(false)}>Cancel</Button>
                             <Button onClick={onDeleteGroup} className="bg-red-500 text-white cursor-pointer">Delete</Button>
                         </DialogFooter>
                             
