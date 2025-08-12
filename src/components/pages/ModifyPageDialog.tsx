@@ -1,5 +1,5 @@
 import { useAuth } from "@/providers/AuthContext";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, Toaster } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { useGroupContext } from "@/providers/GroupContext";
 import { Settings } from "lucide-react";
 import DeletePageDialog from "./DeletePageDialog";
@@ -25,12 +24,12 @@ const formSchema = z.object({
 
 const ModifyPageDialog = () => {
     const {token} = useAuth();
-    const {selectedGroup, selectedPage} = useGroupContext();
+    const {selectedGroup, selectedPage, rechargeGroupContent} = useGroupContext();
 
     const API = import.meta.env.VITE_REACT_APP_API_URL
-    const navigate = useNavigate();
     
     const [fetchError, setFetchError] = useState("");
+    const [parentDialogOpen, setParentDialogOpen] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -73,7 +72,9 @@ const ModifyPageDialog = () => {
             const json = await response.json();
             console.log("result : ", json);
             toast("Page " + values.pageTitle + " was successfully modified !");
-            navigate(0); // refresh the page
+            setParentDialogOpen(false);
+            rechargeGroupContent();
+
 
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -87,12 +88,15 @@ const ModifyPageDialog = () => {
     return (
         <>
             <Toaster/>
-            <Dialog>
-                <DialogTrigger className="m-0 p-0 bg-transparent text-white hover:text-black hover:bg-transparent shadow-none ml-3 mt-5">
+            <Dialog open={parentDialogOpen}>
+                <DialogTrigger 
+                    className="m-0 p-0 bg-transparent text-white hover:text-black hover:bg-transparent shadow-none ml-3 mt-5" 
+                    onClick={() => setParentDialogOpen(true)}
+                >
                     <Settings className="w-5 h-5"/>
                 </DialogTrigger>
 
-                <DialogContent>
+                <DialogContent showCloseButton={false}>
                     <DialogHeader>
                         <DialogTitle>Modify your page informations</DialogTitle>
                     </DialogHeader>
@@ -149,12 +153,10 @@ const ModifyPageDialog = () => {
                         />
                         <p className="text-red-600">{fetchError}</p>
 
-                        <DeletePageDialog/>
+                        <DeletePageDialog setParentDialogOpen={setParentDialogOpen}/>
                         
                         <DialogFooter>
-                            <DialogClose asChild>
-                                <Button>Cancel</Button>
-                            </DialogClose>
+                            <Button type="button" onClick={() => setParentDialogOpen(false)}>Cancel</Button>
                             <Button type="submit" variant="secondary">Modify</Button>
                         </DialogFooter>
                             

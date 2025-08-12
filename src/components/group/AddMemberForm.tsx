@@ -19,7 +19,7 @@ const formSchema = z.object({
 
 const AddMemberForm = () => {
     const {token} = useAuth();
-    const {selectedGroup, rechargeBarContent} = useGroupContext();
+    const {selectedGroup, rechargeGroupContent} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
     
     const [fetchError, setFetchError] = useState("");
@@ -64,7 +64,7 @@ const AddMemberForm = () => {
             console.log("result : ", json);
             toast("User " + values.username + " was successfully added to the group !");
             setDialogOpen(false);
-            rechargeBarContent();
+            rechargeGroupContent();
 
         } catch (error: unknown) {
             if (error instanceof Error) {

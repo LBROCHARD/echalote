@@ -1,14 +1,13 @@
 import { useAuth } from "@/providers/AuthContext";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import z from "zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast, Toaster } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import DeleteGroupDialog from "./DeleteGroupDialog";
 import { useGroupContext } from "@/providers/GroupContext";
 
@@ -23,32 +22,13 @@ const formSchema = z.object({
 
 const ModifyGroupDialog = () => {
     const {token} = useAuth();
-    const {selectedGroup} = useGroupContext();
-
+    const {selectedGroup, rechargeUserGroups} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
-    const navigate = useNavigate();
     
     const [fetchError, setFetchError] = useState("");
 
+    const [parentDialogOpen, setParentDialogOpen] = useState(false);
 
-    // const { register, setValue } = useForm();
-
-    // const groupNameInput = useRef<React.ComponentProps<"input">>(null);
-    // const groupColorInput = useRef<React.ComponentProps<"input">>(null);
-
-    useEffect( () => {
-        if (selectedGroup != null ){
-            // if (groupNameInput.current && groupColorInput.current) {
-            //     setValue("groupNameInput", selectedGroup.groupName);
-
-            //     groupNameInput.current.value = selectedGroup.groupName;
-            //     groupColorInput.current.value = selectedGroup.groupColor;
-            //     console.log("AAAAH : ça marche fdp ?????")
-            // }
-            // console.log("AAAAH : get fucked regular")
-            // setValue("groupNameInput", selectedGroup.groupName);
-        } 
-    }, [selectedGroup])
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -88,7 +68,9 @@ const ModifyGroupDialog = () => {
             const json = await response.json();
             console.log("result : ", json);
             toast("Group " + values.groupName + " was successfully modified !");
-            navigate(0); // refresh the page
+            setParentDialogOpen(false);
+            rechargeUserGroups();
+
 
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -101,18 +83,18 @@ const ModifyGroupDialog = () => {
 
     return (
         <>
-            <Toaster/>
-            <Dialog>
+            <Dialog open={parentDialogOpen}>
                 <DialogTrigger className="m-0">
 
                     <Button 
                         className="m-0 ml-2 p-0 pl-1 pr-1 bg-transparent hover:bg-transparent text-secondary-foreground hover:text-primary shadow-none cursor-pointer"
+                        onClick={() => setParentDialogOpen(true)}
                     >
                         ...
                     </Button>
 
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent showCloseButton={false}>
                     <DialogHeader>
                         <DialogTitle>Modify your group informations</DialogTitle>
                     </DialogHeader>
@@ -153,12 +135,10 @@ const ModifyGroupDialog = () => {
                         />
                         <p className="text-red-600">{fetchError}</p>
 
-                        <DeleteGroupDialog/>
+                        <DeleteGroupDialog setParentDialogOpen={setParentDialogOpen}/>
                         
                         <DialogFooter>
-                            <DialogClose asChild>
-                                <Button>Cancel</Button>
-                            </DialogClose>
+                            <Button type="button" onClick={() => setParentDialogOpen(false)}>Cancel</Button>
                             <Button type="submit" variant="secondary">Modify</Button>
                         </DialogFooter>
                             

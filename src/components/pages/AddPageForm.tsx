@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, Toaster } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -25,11 +24,12 @@ const formSchema = z.object({
 
 const AddPageForm = () => {
     const {token} = useAuth();
-    const {selectedGroup} = useGroupContext();
+    const {selectedGroup, rechargeGroupContent} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
-    const navigate = useNavigate();
     
     const [fetchError, setFetchError] = useState("");
+    const [dialogOpen, setDialogOpen] = useState(false);
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -73,7 +73,9 @@ const AddPageForm = () => {
             const json = await response.json();
             console.log("result : ", json);
             toast("Page " + values.pageName + " was successfully added to the group !");
-            navigate(0); // refresh the page
+            setDialogOpen(false);
+            rechargeGroupContent();
+
 
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -90,16 +92,16 @@ const AddPageForm = () => {
     return (
         <>
             <Toaster/>
-            <Dialog>
+            <Dialog open={dialogOpen}>
                 <DialogTrigger>
                     <SidebarMenuItem className="list-none m-0">
-                        <SidebarMenuButton asChild className="cursor-pointer m-0">
+                        <SidebarMenuButton asChild className="cursor-pointer m-0" onClick={() => setDialogOpen(true)}>
                             <p className="text-muted-foreground"> + Create a new page</p>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </DialogTrigger>
 
-                <DialogContent>
+                <DialogContent showCloseButton={false}>
                     <DialogHeader>
                         <DialogTitle>Add a new Page to your group !</DialogTitle>
                     </DialogHeader>
@@ -147,9 +149,7 @@ const AddPageForm = () => {
                             />
                             <p className="text-red-600">{fetchError}</p>
                             <DialogFooter>
-                                <DialogClose asChild>
-                                    <Button>Close</Button>
-                                </DialogClose>
+                                <Button type="button" onClick={() => setDialogOpen(false)}>Close</Button>
                                 <Button type="submit" variant="secondary">Create New Page</Button>
                             </DialogFooter>
                         </form>
