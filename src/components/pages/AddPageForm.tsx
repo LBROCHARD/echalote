@@ -18,7 +18,8 @@ const formSchema = z.object({
         .max(50, {message: "Please enter less than fifty characters"}),
     pageColor: z.string()
         .min(6, {message: "Please enter a valid Hexadecimal color value without the #"})
-        .max(6, {message: "Please enter a valid Hexadecimal color value without the #"})
+        .max(6, {message: "Please enter a valid Hexadecimal color value without the #"}),
+    pageTags: z.string()
 })
 
 
@@ -34,7 +35,8 @@ const AddPageForm = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             pageName: "New Page",
-            pageColor: "8888DD"
+            pageColor: "8888DD",
+            pageTags: "page"
         },
     })
 
@@ -55,7 +57,8 @@ const AddPageForm = () => {
                 body: JSON.stringify({
                     groupId: selectedGroup.id,
                     pageName: values.pageName,
-                    pageColor: values.pageColor
+                    pageColor: values.pageColor,
+                    tags: values.pageTags
                 }) 
             });
 
@@ -124,6 +127,19 @@ const AddPageForm = () => {
                                         <FormLabel>New Page Color in Hex format</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="00FF55" {...field} />
+                                            </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="pageTags"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Tags (separated by spaces)</FormLabel>
+                                            <FormControl>
+                                                <Input  placeholder="page important knowledge" {...field} />
                                             </FormControl>
                                         <FormMessage />
                                     </FormItem>
