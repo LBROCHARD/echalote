@@ -81,8 +81,8 @@ const AddMemberForm = () => {
             <Toaster/>
             <Dialog>
                 <DialogTrigger>
-                    <SidebarMenuItem className="list-none">
-                        <SidebarMenuButton asChild className="cursor-pointer">
+                    <SidebarMenuItem className="list-none m-0">
+                        <SidebarMenuButton asChild className="cursor-pointer m-0">
                             <p className="text-muted-foreground"> + Add a new member</p>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -110,7 +110,7 @@ const AddMemberForm = () => {
                                 )}
                             />
                             <p className="text-red-600">{fetchError}</p>
-                            <Button type="submit" className="cursor-pointer">
+                            <Button type="submit" className="cursor-pointer ml-0">
                                 Add Member
                             </Button>
                         </form>

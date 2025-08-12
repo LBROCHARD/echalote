@@ -8,6 +8,7 @@ import { toast, Toaster } from "sonner";
 import ModifyPageDialog from "./pages/ModifyPageDialog";
 import { BookOpen, PencilLine, Save } from "lucide-react";
 import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 
 const MainContent = () => {
@@ -15,6 +16,8 @@ const MainContent = () => {
     const {selectedPage, selectedGroup} = useGroupContext();
     const { token } = useAuth();
     const navigate = useNavigate();
+
+    const returnRegex = /\n/gi;
 
     const [pageContent, setPageContent] = useState(selectedPage?.content);
     const [isSaveBtnShown, setIsSaveBtnShown] = useState(false);
@@ -125,7 +128,7 @@ const MainContent = () => {
             </div>
 
             <div className="p-5 pb-1 flex flex-col h-full content-center justify-center items-center ">
-                <div className="w-full h-auto p-0 m-0 mb-5 flex flex-row justify-between content-center">
+                <div className="w-full h-auto p-0 m-0 flex flex-row justify-between content-center">
                     <Button onClick={() => { changeEditMode(!isEditMode) } } className="m-0">
                         <EditBtnContent/>
                     </Button>
@@ -133,16 +136,16 @@ const MainContent = () => {
                     <SaveButton/>
                 </div>
 
-                <div className="h-full w-full" hidden={!isEditMode}> 
-                    <Markdown>
-                        {pageContent}
+                <div className="h-full w-full mt-2 ml-10" hidden={!isEditMode}> 
+                    <Markdown remarkPlugins={[remarkGfm]}>
+                        {pageContent?.replace(returnRegex, "\n\n")}
                     </Markdown>
                 </div>
                 <Textarea
                     hidden={isEditMode}
-                    className="ml-5 mr-5 pl-6 pt-4 h-full bg-accent border-transparent border-0 shadow-none rounded-m resize-none"
+                    className="mt-5 ml-5 mr-5 pl-6 pt-4 h-full bg-accent border-transparent border-0 shadow-none rounded-m resize-none"
                     value={pageContent}
-                    onChange={(event) => { 
+                    onChange={(event) => {
                         setPageContent(event.target.value);
                         if (selectedPage!= null && selectedPage?.content != event.target.value) {
                             setIsSaveBtnShown(true);

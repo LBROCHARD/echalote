@@ -89,8 +89,8 @@ const AddPageForm = () => {
             <Toaster/>
             <Dialog>
                 <DialogTrigger>
-                    <SidebarMenuItem className="list-none">
-                        <SidebarMenuButton asChild className="cursor-pointer">
+                    <SidebarMenuItem className="list-none m-0">
+                        <SidebarMenuButton asChild className="cursor-pointer m-0">
                             <p className="text-muted-foreground"> + Create a new page</p>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

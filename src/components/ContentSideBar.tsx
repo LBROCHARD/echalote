@@ -133,9 +133,17 @@ const ContentSideBar = () => {
                         <SidebarGroupLabel>Pages</SidebarGroupLabel>
                         <SidebarGroupContent>
                             {selectedGroupPages.map((page) => (
-                                <SidebarMenuItem key={page.id}>
-                                    <SidebarMenuButton className="m-0 p-0" onClick={() => {setSelectedPage(page)}}>
-                                        <Link to={"/page"} className="p-2 w-full text-foreground no-underline">
+                                <SidebarMenuItem key={page.id} className="list-none m-0 p-0 mb-0">
+                                    <SidebarMenuButton 
+                                        className="m-0 p-0" 
+                                        tabIndex={-1}
+                                        onClick={() => {setSelectedPage(page)}}
+                                    >
+                                        <Link
+                                            to={"/page"} 
+                                            onClick={() => {setSelectedPage(page)}}
+                                            className="p-2 w-full text-foreground no-underline"
+                                        >
                                             <p>{"•  " + page.pageName}</p> 
                                         </Link>
                                     </SidebarMenuButton>
