@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.4.0](https://github.com/LBROCHARD/echalote/compare/0.3.1...0.4.0) (2025-08-12)
+
+### Features
+
+* added group members and form to add one ([c9a39e4](https://github.com/LBROCHARD/echalote/commit/c9a39e427bf66623672f0e5e5c5cfe316ff002bf))
+* can remove members ([4712be0](https://github.com/LBROCHARD/echalote/commit/4712be0b97b015f220bb0599db579a6e9a7b7bcc))
+* created navbar ([a37e749](https://github.com/LBROCHARD/echalote/commit/a37e7497df4e61c18e49928c234fb24535817eb2))
+* modification of groups ([bbe8abe](https://github.com/LBROCHARD/echalote/commit/bbe8abe54b76b25bafb54f650d08810657349f2d))
+* top bar on pages ([ba0d6a5](https://github.com/LBROCHARD/echalote/commit/ba0d6a5621b845a438de1846fc9e8898be8c9887))
+* working MD editor ([e1464d6](https://github.com/LBROCHARD/echalote/commit/e1464d6585970400c81086c6375e29f3f601ebd9))
+* working MD editor in pages ([93184b7](https://github.com/LBROCHARD/echalote/commit/93184b72267f1530f21e1a22d68afc63213e0ec6))
+
+### Bug Fixes
+
+* fixed dependency error ([ecba24c](https://github.com/LBROCHARD/echalote/commit/ecba24c1123828fa07aad4ed2c239b516d3e255f))
+* fixed linter problems ([d803686](https://github.com/LBROCHARD/echalote/commit/d80368625182a7065c3eb843fc355c9b7ada9b13))
+
 ## [0.3.1](https://github.com/LBROCHARD/echalote/compare/0.3.0...0.3.1) (2025-08-06)
 
 ### Bug Fixes
