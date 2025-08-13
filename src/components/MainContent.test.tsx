@@ -34,11 +34,6 @@ vi.mock('@/providers/GroupContext', () => ({
     useGroupContext: mocks.mockUseGroupContext,
 }));
 
-// vi.mock('@/providers/AuthContext', () => ({
-//     useAuth: mocks.mockUseAuth,
-// }));
-
-
 global.fetch = mockFetch;
 
 
