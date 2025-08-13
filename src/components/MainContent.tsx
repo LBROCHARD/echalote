@@ -26,8 +26,7 @@ const MainContent = () => {
 
     useEffect(() => {
         if (selectedPage == null ) {
-            navigate("/")
-            
+            navigate("/");
         } else {
             setPageContent(selectedPage?.content);
         }
@@ -43,7 +42,7 @@ const MainContent = () => {
     function SaveButton() {
         if (isSaveBtnShown) {
             return (
-                <Button onClick={updatePageContent} className="m-0">
+                <Button onClick={updatePageContent} className="m-0" data-testid="saveButton">
                     <Save/>
                     Save Modifications
                 </Button>
@@ -110,6 +109,7 @@ const MainContent = () => {
     return (
         <div className="flex flex-col h-full">
             <Toaster/>
+            <p>{selectedPage? "selectedPage is NOT NULL" : "selectedPage is NULL"}</p>
             <div 
                 className="h-auto shadow-xl"
                 style={{backgroundColor: "#" + selectedPage?.pageColor}}
@@ -129,14 +129,14 @@ const MainContent = () => {
 
             <div className="p-5 pb-1 flex flex-col h-full content-center justify-center items-center ">
                 <div className="w-full h-auto p-0 m-0 flex flex-row justify-between content-center">
-                    <Button onClick={() => { changeEditMode(!isEditMode) } } className="m-0">
+                    <Button onClick={() => { changeEditMode(!isEditMode) } } className="m-0" data-testid="editModeButton">
                         <EditBtnContent/>
                     </Button>
 
                     <SaveButton/>
                 </div>
 
-                <div className="h-full w-full mt-2 ml-10" hidden={!isEditMode}> 
+                <div className="h-full w-full mt-2 ml-10" hidden={!isEditMode} data-testid="markdownDiv"> 
                     <Markdown remarkPlugins={[remarkGfm]}>
                         {pageContent?.replace(returnRegex, "\n\n")}
                     </Markdown>
@@ -152,6 +152,7 @@ const MainContent = () => {
                         }
                     }}
                     placeholder="Write something !"
+                    data-testid="editContentTextArea"
                 />
             </div>
         </div>
