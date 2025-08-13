@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import MainContent from './MainContent';
 import userEvent from '@testing-library/user-event';
-import AuthProvider, { useAuth } from '@/providers/AuthContext';
+import AuthProvider from '@/providers/AuthContext';
 
 
 const mocks = vi.hoisted(() => ({
@@ -25,18 +25,6 @@ vi.mock('./SaveButton', () => ({
 vi.mock('./EditBtnContent', () => ({
     default: () => <span data-testid="edit-btn-content">Edit</span>,
 }));
-
-vi.mock('@/components/ui/textarea', () => ({
-    Textarea: (props: any) => <textarea data-testid="textarea" {...props} />,
-}));
-
-// vi.mock('react-markdown', () => {
-//     return {
-//         default: ({children}: {children: React.ReactNode}) => {
-//             return <div data-testid="markdown-content">{children}</div>;
-//         } 
-//     }
-// });
 
 vi.mock('react-router-dom', () => ({
     useNavigate: () => mockUseNavigate,
