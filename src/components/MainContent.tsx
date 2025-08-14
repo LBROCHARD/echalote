@@ -109,7 +109,6 @@ const MainContent = () => {
     return (
         <div className="flex flex-col h-full">
             <Toaster/>
-            <p>{selectedPage? "selectedPage is NOT NULL" : "selectedPage is NULL"}</p>
             <div 
                 className="h-auto shadow-xl"
                 style={{backgroundColor: "#" + selectedPage?.pageColor}}
