@@ -1,7 +1,7 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarMenuButton, SidebarMenuItem, } from "@/components/ui/sidebar"
 import logo from '/SuperNotes_icon.png';
 import userIcon from '/User.png';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "@/providers/AuthContext";
 import { useEffect } from "react";
 import { useGroupContext } from "@/providers/GroupContext";
@@ -10,11 +10,13 @@ import CreateGroupForm from "./group/CreateGroupForm";
 import AddMemberForm from "./group/AddMemberForm";
 import DeleteMemberDialog from "./group/DeleteMemberDialog";
 import AddPageForm from "./pages/AddPageForm";
+import SkipLink from "./SkipLink";
 
 
 const ContentSideBar = () => {
     const { user } = useAuth();
     const { groups, rechargeUserGroups, selectedGroup, setSelectedPage, selectedGroupMembers, selectedGroupPages, setSelectedGroup } = useGroupContext();
+    const navigate = useNavigate();
 
     useEffect(() =>{
         rechargeUserGroups();
@@ -91,17 +93,20 @@ const ContentSideBar = () => {
                 <SidebarContent>
                     <SidebarGroup className="px-0">
                         <SidebarGroupLabel>Pages</SidebarGroupLabel>
+                        <SkipLink/>
                         <SidebarGroupContent>
                             {selectedGroupPages.map((page) => (
                                 <SidebarMenuItem key={page.id} className="list-none m-0 p-0 mb-0">
                                     <SidebarMenuButton 
                                         className="m-0 p-0" 
-                                        tabIndex={-1}
-                                        onClick={() => {setSelectedPage(page)}}
+                                        onClick={() => {
+                                            setSelectedPage(page);
+                                            navigate("/page")
+                                        }}
                                     >
                                         <Link
                                             to={"/page"} 
-                                            onClick={() => {setSelectedPage(page)}}
+                                            tabIndex={-1}
                                             className="p-2 w-full text-foreground no-underline"
                                         >
                                             <p>{"•  " + page.pageName}</p> 

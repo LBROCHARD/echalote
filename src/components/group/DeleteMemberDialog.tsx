@@ -66,9 +66,9 @@ const DeleteMemberDialog = (props: DeleteMemberDialogProps) => {
             <Toaster/>
             <Dialog open={dialogOpen}>
                 <SidebarMenuItem key={props.groupID} className="list-none m-0 p-0 mb-0">
-                    <SidebarMenuButton className="m-0 p-0">
+                    <SidebarMenuButton className="m-0 p-0" tabIndex={-1}>
                         <DialogTrigger 
-                            className="m-0 flex justify-start items-center bg-transparent hover:bg-transparent w-full h-full" 
+                            className="m-0 flex justify-start items-center bg-transparent hover:bg-transparent w-full h-full focus:visible focus:border-2 focus:border-blue-400" 
                             onClick={() => setDialogOpen(true)}
                         >
                             <p className="ml-2">{"•  " + props.username}</p>
