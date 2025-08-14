@@ -9,13 +9,19 @@ import { useAuth } from "@/providers/AuthContext"
 import { Toaster } from "../ui/sonner"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
+
+// Regex for at least : 1 lowercase, 1 uppercase, 1 number and 1 special character
+const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-=/~])[A-Za-z\d@$!%*?&+\-=/~]{8,}$/;
  
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  email: z.string().email({message: "Please enter a valid email"}).min(3),
-  password: z.string().min(8, {message: "The password must be at least 8 characters"})
+  email: z.string()
+    .email({message: "Please enter a valid email"}).min(3),
+  password: z.string()
+    .min(8, {message: "The password must be at least 8 characters"})
+    .regex(strongPasswordRegex, "The password must contain at least : 1 lowercase, 1 uppercase, 1 number and 1 special character")
 })
  
 const RegisterForm = () => {
