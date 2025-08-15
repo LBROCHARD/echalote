@@ -107,7 +107,7 @@ const MainContent = () => {
     }
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full" id="main-content">
             <Toaster/>
             <div 
                 className="h-auto shadow-xl"

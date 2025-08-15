@@ -84,7 +84,7 @@ const ModifyGroupDialog = () => {
     return (
         <>
             <Dialog open={parentDialogOpen}>
-                <DialogTrigger className="m-0">
+                <DialogTrigger className="m-0" tabIndex={-1}>
 
                     <Button 
                         className="m-0 ml-2 p-0 pl-1 pr-1 bg-transparent hover:bg-transparent text-secondary-foreground hover:text-primary shadow-none cursor-pointer"
