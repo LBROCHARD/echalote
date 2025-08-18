@@ -11,6 +11,7 @@ import AddMemberForm from "./group/AddMemberForm";
 import DeleteMemberDialog from "./group/DeleteMemberDialog";
 import AddPageForm from "./pages/AddPageForm";
 import SkipLink from "./SkipLink";
+import AutoColorText from "./group/AutoColorText";
 
 
 const ContentSideBar = () => {
@@ -44,6 +45,7 @@ const ContentSideBar = () => {
                     <SidebarGroup className="p-0">
                         {groups?.map((item) => (
                             <div 
+                                key={item.id}
                                 className={ selectedGroup?.id == item.id ? "bg-background-darker" : "bg-transparent"}
                             >
                                 <SidebarMenuButton
@@ -59,7 +61,7 @@ const ContentSideBar = () => {
                                         groupColor: item.groupColor,
                                     })}
                                 >
-                                    <p>{item.groupName.substring(0,2)}</p>
+                                    <AutoColorText backgroundColor={item.groupColor} text={item.groupName.substring(0,2)}/>
                                 </SidebarMenuButton>
                             </div>
                         ))}
@@ -121,7 +123,7 @@ const ContentSideBar = () => {
                         <SidebarGroupLabel>Members</SidebarGroupLabel>
                         <SidebarGroupContent>
                             {selectedGroupMembers.map((member) => (
-                                <DeleteMemberDialog username={member.username} groupID={selectedGroup?.id}/>
+                                <DeleteMemberDialog key={member.id} username={member.username} groupID={selectedGroup?.id}/>
                             ))}
                             <AddMemberForm/>
                         </SidebarGroupContent>

@@ -11,6 +11,7 @@ import { toast, Toaster } from "sonner";
 import { useGroupContext } from "@/providers/GroupContext";
 import { Settings } from "lucide-react";
 import DeletePageDialog from "./DeletePageDialog";
+import { isColorDark } from "@/utils/colorUtils";
 
 const formSchema = z.object({
     pageTitle: z.string()
@@ -27,6 +28,9 @@ const ModifyPageDialog = () => {
     const {selectedGroup, selectedPage, rechargeGroupContent} = useGroupContext();
 
     const API = import.meta.env.VITE_REACT_APP_API_URL
+
+    const isDark = isColorDark(selectedPage? selectedPage.pageColor : "FFFFFF");
+    const iconColor = isDark ? 'text-white' : 'text-black';
     
     const [fetchError, setFetchError] = useState("");
     const [parentDialogOpen, setParentDialogOpen] = useState(false);
@@ -93,7 +97,7 @@ const ModifyPageDialog = () => {
                     className="m-0 p-0 bg-transparent text-white hover:text-black hover:bg-transparent shadow-none ml-3 mt-5" 
                     onClick={() => setParentDialogOpen(true)}
                 >
-                    <Settings className="w-5 h-5"/>
+                    <Settings className={"w-5 h-5 " + iconColor}/>
                 </DialogTrigger>
 
                 <DialogContent showCloseButton={false}>
