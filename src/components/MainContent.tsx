@@ -9,6 +9,7 @@ import ModifyPageDialog from "./pages/ModifyPageDialog";
 import { BookOpen, PencilLine, Save } from "lucide-react";
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import AutoColorText from "./group/AutoColorText";
 
 
 const MainContent = () => {
@@ -114,13 +115,13 @@ const MainContent = () => {
                 style={{backgroundColor: "#" + selectedPage?.pageColor}}
             >
                 <div className="w-full flex flex-row items-center">
-                    <h1 className="text-white font-bold m-0 mt-5 ml-12">{selectedPage?.pageName}</h1>
+                    <AutoColorText text={selectedPage?.pageName} backgroundColor={selectedPage?.pageColor} isHeader={true} TransferedClassName="font-bold m-0 mt-5 ml-12"/>
                     <ModifyPageDialog/>
                 </div>
                 <div className="m-2 h-8 ml-12 flex items-center flex-row">
                     <ul className="flex">
                         {selectedPage?.tags.split(" ").map((tag) => (
-                            <p className=" text-white mr-3">{"#" + tag}</p>
+                            <AutoColorText text={"#" + tag} backgroundColor={selectedPage?.pageColor} TransferedClassName="mr-3"/>
                         ))}
                     </ul>
                 </div>
