@@ -1,5 +1,5 @@
 export const getLuminosity = (hex: string): number => {
-    var substrings: number[] = [0, 2, 4, 6];
+    let substrings: number[] = [0, 2, 4, 6];
     
     if (hex.length == 6) {
         substrings = [0, 2, 4, 6];
