@@ -10,7 +10,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useGroupContext } from "@/providers/GroupContext";
-import { ColorPicker, useColor } from "react-color-palette";
 import { HexColorPicker } from "react-colorful";
 
 
