@@ -47,8 +47,10 @@ const AccountComponent = () => {
             <div className="items-center justify-center">
                 <p>Username : {user?.username} </p>
                 <p>Email : {user?.email} </p>
-                
-                <Button onClick={onDisconnect} aria-description="Log the user out of your session.">Disconnect</Button>
+
+                <Button onClick={onDisconnect} aria-description="Log the user out of your session.">
+                    Disconnect
+                </Button>
                 
                 <Dialog>
                     <DialogTrigger>
