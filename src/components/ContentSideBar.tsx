@@ -3,8 +3,8 @@ import logo from '/SuperNotes_icon.png';
 import userIcon from '/User.png';
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "@/providers/AuthContext";
-import { useEffect } from "react";
-import { useGroupContext } from "@/providers/GroupContext";
+import { useEffect, useState } from "react";
+import { Page, useGroupContext } from "@/providers/GroupContext";
 import ModifyGroupDialog from "./group/ModifyGroupDialog";
 import CreateGroupForm from "./group/CreateGroupForm";
 import AddMemberForm from "./group/AddMemberForm";
@@ -19,9 +19,40 @@ const ContentSideBar = () => {
     const { groups, rechargeUserGroups, selectedGroup, setSelectedPage, selectedGroupMembers, selectedGroupPages, setSelectedGroup } = useGroupContext();
     const navigate = useNavigate();
 
+    const [searchInput, setSearchInput] = useState('');
+    const [sortedPages, setSortedPages] = useState<Page[]>([]);
+
     useEffect(() =>{
         rechargeUserGroups();
+        setSortedPages(selectedGroupPages);
     }, []);
+
+    useEffect(() =>{
+        setSortedPages(selectedGroupPages);
+    }, [selectedGroupPages]);
+
+    useEffect(() =>{
+        searchInPages();
+    }, [searchInput]);
+
+    useEffect(() =>{
+        setSearchInput("");
+    }, [selectedGroup]);
+
+    const searchInPages = () => {
+        let sortedPages: Page[] = [];
+
+        const normalizedSearchInput = searchInput.toLowerCase();
+
+        selectedGroupPages.filter(page => {
+            const normalizedPageName = page.pageName.toLowerCase();
+            if (normalizedPageName.includes(normalizedSearchInput)) {
+                sortedPages.push(page);
+            }
+        })
+        
+        setSortedPages(sortedPages);
+    }
     
     return (
         <Sidebar
@@ -89,7 +120,11 @@ const ContentSideBar = () => {
                         {selectedGroup?.groupName}
                         <ModifyGroupDialog/>
                     </div>
-                    <SidebarInput placeholder="Type to search..." />
+                    <SidebarInput 
+                        placeholder="Type to search..." 
+                        value={searchInput}
+                        onChange={(event) => setSearchInput(event.target.value)} 
+                    />
                 </SidebarHeader>
 
                 <SidebarContent>
@@ -97,7 +132,7 @@ const ContentSideBar = () => {
                         <SidebarGroupLabel>Pages</SidebarGroupLabel>
                         <SkipLink/>
                         <SidebarGroupContent>
-                            {selectedGroupPages.map((page) => (
+                            {sortedPages.map((page) => (
                                 <SidebarMenuItem key={page.id} className="list-none m-0 p-0 mb-0">
                                     <SidebarMenuButton 
                                         className="m-0 p-0" 
