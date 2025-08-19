@@ -6,11 +6,11 @@ This repository is the Frontend part of the project.
 
 ## Features 
 
-Super Notes, in its actual version has multiples features :
+Super Notes, in its actual version, has multiple features :
 
 - create an account 
 - login 
-- list all groups associated with the account in a retractable side bar
+- list all groups associated with the account in a retractable sidebar
 - create groups
 - modify and delete groups
 - add members to a group (letting them access its content)
@@ -18,7 +18,7 @@ Super Notes, in its actual version has multiples features :
 - create pages with a title, a background color and tags
 - modify and delete pages
 - modify the content of a page with a Markdown text editor
-- read the page content formated as HTML from Markdown
+- read the page content formatted as HTML from Markdown
 
 
 
@@ -38,7 +38,7 @@ Super Notes, in its actual version has multiples features :
 
 ## How to run
 
-After cloning the projet and installing the dependancies with `npm i` you can run the project using the following command : 
+After cloning the project and installing the dependencies with `npm i` you can run the project using the following command : 
 
 ```bash
 $ npm run dev
@@ -50,7 +50,7 @@ You will need to have the backend launched as well and to have set the following
 
 ## Run tests and Linter
 
-You can check the project comformity by launching tests or the Linter using the following commands :
+You can check the project conformity by launching tests or the Linter using the following commands :
 
 Run tests :
 
