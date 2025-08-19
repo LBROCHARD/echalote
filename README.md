@@ -48,6 +48,22 @@ You will need to have the backend launched as well and to have set the following
 
 - VITE_REACT_APP_API_URL : the URL to the frontend
 
+## Run tests and Linter
+
+You can check the project comformity by launching tests or the Linter using the following commands :
+
+Run tests :
+
+```bash
+$ npm run test
+```
+
+Run Linter :
+
+```bash
+$ npm run lint
+```
+
 ## Author 
 
 Developped by Louis Brochard, in the context of a school project.
