@@ -41,7 +41,7 @@ const ContentSideBar = () => {
     }, [selectedGroup]);
 
     const searchInPages = () => {
-        let sortedPages: Page[] = [];
+        const sortedPages: Page[] = [];
 
         const normalizedSearchInput = searchInput.toLowerCase();
 
