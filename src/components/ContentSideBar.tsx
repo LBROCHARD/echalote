@@ -36,7 +36,7 @@ const ContentSideBar = () => {
                 <SidebarHeader>
                     <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0" tooltip={{children: "Home", hidden: false}}>
                         <Link to="/" className="flex aspect-square size-8 items-center justify-center rounded-lg">
-                            <img src={logo} alt="Super Notes"/>
+                            <img src={logo} alt="Logo Super Notes"/>
                         </Link>
                     </SidebarMenuButton>
                 </SidebarHeader>
