@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.0](https://github.com/LBROCHARD/echalote/compare/0.5.0...1.0.0) (2025-08-19)
+
+### Features
+
+* searchbar ([bad5fa0](https://github.com/LBROCHARD/echalote/commit/bad5fa0fdeacf1dd6bda30791c71e47131aa199c))
+* searchbar works with tags ([0965a87](https://github.com/LBROCHARD/echalote/commit/0965a879ea85a628a7d1f41461b94472fe18d023))
+
+### Bug Fixes
+
+* added a release-major script ([d67ebfe](https://github.com/LBROCHARD/echalote/commit/d67ebfedb2f961c588348cf13a47ac564bd21c09))
+* fixed lint error ([1318ec1](https://github.com/LBROCHARD/echalote/commit/1318ec1368fa5fe7ec9f5115e5e003b025968723))
+* fixed release-it ([5b10250](https://github.com/LBROCHARD/echalote/commit/5b10250be32f9d1e66bbd735d4b6f7aa59b85f10))
+* fixed release-it ([d5a8707](https://github.com/LBROCHARD/echalote/commit/d5a8707833c3b655ea62ec8b62901ea903adb704))
+
 ## [0.5.0](https://github.com/LBROCHARD/echalote/compare/0.4.1...0.5.0) (2025-08-19)
 
 ### Features
