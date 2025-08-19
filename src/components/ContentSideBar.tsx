@@ -29,6 +29,7 @@ const ContentSideBar = () => {
 
     useEffect(() =>{
         setSortedPages(selectedGroupPages);
+        searchInPages();
     }, [selectedGroupPages]);
 
     useEffect(() =>{
@@ -47,6 +48,14 @@ const ContentSideBar = () => {
         selectedGroupPages.filter(page => {
             const normalizedPageName = page.pageName.toLowerCase();
             if (normalizedPageName.includes(normalizedSearchInput)) {
+                sortedPages.push(page);
+            }
+        })
+
+        // Add from tags as well
+        selectedGroupPages.filter(page => {
+            const normalizedPageTags = page.tags.toLowerCase();
+            if (normalizedPageTags.includes(normalizedSearchInput) && !sortedPages.includes(page)) {
                 sortedPages.push(page);
             }
         })
