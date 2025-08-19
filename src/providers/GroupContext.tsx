@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import { useAuth } from "./AuthContext";
+import { useAxiosClient } from "./AxiosContext";
 
 export interface Group {
     id: string;
@@ -46,6 +47,7 @@ interface GroupContextProviderProps {
 export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ children }) => {
     const {token} = useAuth();
     const API = import.meta.env.VITE_REACT_APP_API_URL
+    const axiosClient = useAxiosClient();
 
     const [groups, setGroups] = useState<Group[]>([]);
     
@@ -89,38 +91,27 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
 
     const getGroups = async () => {
         try {
-            const response = await fetch(API + "/group", {
-                method: "get",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            });
+            const response = await axiosClient.get("group");
 
-            if (!response.ok ) {
-                throw new Error(`Response status text: ${response.status}`);
-            }
-
-            const json = await response.json();
-            console.log("groups : ", json);
-            setGroups(json);
+            const data = response.data;
+            
+            console.log("groups : ", data);
+            setGroups(data);
 
             // Defaults to the first group, to never be empty
-            if (json != null &&  json.length >= 1) {
+            if (data != null &&  data.length >= 1) {
                 setSelectedGroup({
-                    id: json[0].id,
-                    groupName: json[0].groupName,
-                    groupColor: json[0].groupColor,
+                    id: data[0].id,
+                    groupName: data[0].groupName,
+                    groupColor: data[0].groupColor,
                 }) 
             } else {
                 setSelectedGroup(null)
             }
             // setSelectedPage(groups[0].serverName)
 
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error(error.message);
-            }
+        } catch (error: any) {
+            console.error("Unexpected error : ", error)
         }
     } 
 

@@ -9,6 +9,7 @@ import { useAuth } from "@/providers/AuthContext"
 import { Toaster } from "../ui/sonner"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
+import { useAxiosClient } from "@/providers/AxiosContext"
 
 const formSchema = z.object({
   email: z.string().email({message: "Please enter a valid email"}).min(3),
@@ -17,7 +18,7 @@ const formSchema = z.object({
 
  
 const RegisterForm = () => {
-  const API = import.meta.env.VITE_REACT_APP_API_URL
+  const axiosClient = useAxiosClient();
   const { user, login } = useAuth();
   const navigate = useNavigate();
 
@@ -33,36 +34,26 @@ const RegisterForm = () => {
  
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setFetchError(""); // this is used to show the error reloads when trying again
+    
     try {
-      const response = await fetch(API + "/auth/login", {
-        method: "post",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: "",
-          email: values.email,
-          password: values.password
-        }) 
+      const response = await axiosClient.post("auth/login", {
+        username: "",
+        email: values.email,
+        password: values.password
       });
 
-      if (!response.ok ) {
-        if ([401, 403].indexOf(response.status) !== -1) {
-          setFetchError("This user does not exist, or the password is incorrect");
-          return
-        }
-        throw new Error(`Response status text: ${response.status}`);
-      }
-      const json = await response.json();
-      console.log("result : ", json);
-      login(json.access_token, {username: json.username, email: json.username, id: json.id})
+      const data = response.data;
+      
+      console.log("connect result : ", data);
+      login(data.access_token, {username: data.username, email: data.email, id: data.id})
       toast("Successfully logged in as : " + user?.username);
       navigate("/")
 
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error(error.message);
-        toast("Error trying to login: " + error.message)
+    } catch (error: any) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        setFetchError("This user does not exist, or the password is incorrect");
+      } else {
+        setFetchError("Unexpected error, please try again");
       }
     }
   }
