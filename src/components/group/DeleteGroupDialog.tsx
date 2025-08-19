@@ -60,7 +60,7 @@ const DeleteGroupDialog = (props: DeleteGroupDialogProps) => {
             <Dialog open={dialogOpen}>
                 <DialogTrigger className="m-0">
 
-                    <Button  className="bg-red-500 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
+                    <Button type="button" className="bg-red-500 text-white cursor-pointer" onClick={() => setDialogOpen(true)}>
                         Delete Group
                     </Button>
 

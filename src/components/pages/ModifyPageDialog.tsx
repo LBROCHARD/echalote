@@ -33,7 +33,7 @@ const ModifyPageDialog = () => {
     const iconColor = isDark ? 'text-white' : 'text-black';
     
     const [fetchError, setFetchError] = useState("");
-    const [parentDialogOpen, setParentDialogOpen] = useState(false);
+    const [pageParentDialogOpen, setPageParentDialogOpen] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -76,7 +76,7 @@ const ModifyPageDialog = () => {
             const json = await response.json();
             console.log("result : ", json);
             toast("Page " + values.pageTitle + " was successfully modified !");
-            setParentDialogOpen(false);
+            setPageParentDialogOpen(false);
             rechargeGroupContent();
 
 
@@ -92,10 +92,10 @@ const ModifyPageDialog = () => {
     return (
         <>
             <Toaster/>
-            <Dialog open={parentDialogOpen}>
+            <Dialog open={pageParentDialogOpen}>
                 <DialogTrigger 
                     className="m-0 p-0 bg-transparent text-white hover:text-black hover:bg-transparent shadow-none ml-3 mt-5" 
-                    onClick={() => setParentDialogOpen(true)}
+                    onClick={() => setPageParentDialogOpen(true)}
                 >
                     <Settings className={"w-5 h-5 " + iconColor}/>
                 </DialogTrigger>
@@ -157,10 +157,10 @@ const ModifyPageDialog = () => {
                         />
                         <p className="text-red-600">{fetchError}</p>
 
-                        <DeletePageDialog setParentDialogOpen={setParentDialogOpen}/>
+                        <DeletePageDialog setParentDialogOpen={setPageParentDialogOpen}/>
                         
                         <DialogFooter>
-                            <Button type="button" onClick={() => setParentDialogOpen(false)}>Cancel</Button>
+                            <Button type="button" onClick={() => setPageParentDialogOpen(false)}>Cancel</Button>
                             <Button type="submit" variant="secondary">Modify</Button>
                         </DialogFooter>
                             
