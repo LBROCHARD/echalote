@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.0](https://github.com/LBROCHARD/echalote/compare/0.4.1...0.5.0) (2025-08-19)
+
+### Features
+
+* added a skip link ([0664274](https://github.com/LBROCHARD/echalote/commit/0664274e5e0ecc45454bf880f01f77ba4ca43581))
+* added accesibility for images and buttons ([40e0357](https://github.com/LBROCHARD/echalote/commit/40e03573ed9b88c1d64c205388dee7d708b5a3a0))
+* added accesibility for images and buttons ([a6847b5](https://github.com/LBROCHARD/echalote/commit/a6847b55ff9abd838f1bd7f910bad5685acf4350))
+* added readme ([bbad412](https://github.com/LBROCHARD/echalote/commit/bbad412c54e559b76cb226d86ec3b0842b1410ed))
+* added readme ([2491d0f](https://github.com/LBROCHARD/echalote/commit/2491d0f160337bdadef7096aa65c2dff5358bfcd))
+* automatic text color ([3f2aace](https://github.com/LBROCHARD/echalote/commit/3f2aace56003524cf373356027c7d44907217868))
+* password must be strong ([8f65221](https://github.com/LBROCHARD/echalote/commit/8f65221240974d6af865122a05c7729dbb6061c7))
+* test for the main feature ([015facc](https://github.com/LBROCHARD/echalote/commit/015facced11501e316f2342a218c93dde99615e6))
+* updated readme ([c45c783](https://github.com/LBROCHARD/echalote/commit/c45c7835888a2c40c43c73271dce938a1baeb3d7))
+
+### Bug Fixes
+
+* fixed linter error ([c72d522](https://github.com/LBROCHARD/echalote/commit/c72d522ab330b1aecc3e592241de5aa8b89a0e31))
+* fixed linter errors ([d105057](https://github.com/LBROCHARD/echalote/commit/d1050579c9abbd47a62c514369957e257ebc8ca2))
+* fixed linter errors ([a7d6e34](https://github.com/LBROCHARD/echalote/commit/a7d6e34b2bc8639f58e44d89aa16035a19a619c8))
+
 ## [0.4.1](https://github.com/LBROCHARD/echalote/compare/0.4.0...0.4.1) (2025-08-12)
 
 ### Bug Fixes
