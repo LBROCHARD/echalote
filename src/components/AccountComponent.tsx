@@ -1,5 +1,6 @@
 import { useAuth } from "@/providers/AuthContext";
 import { Button } from "./ui/button";
+import userIcon from '/User.png';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { toast, Toaster } from "sonner";
@@ -42,11 +43,19 @@ const AccountComponent = () => {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-start justify-start h-screen p-20">
             <Toaster/>
-            <div className="items-center justify-center">
-                <p>Username : {user?.username} </p>
-                <p>Email : {user?.email} </p>
+            <div className="items-start justify-start w-full">
+                <div className="flex flex-row">
+                    <img src={userIcon} alt={user?.username + " account"} className="bg-primary aspect-square h-20 rounded-2xl"/>
+                    <div className="ml-5">
+                        <p>{user?.username}</p>
+                        <p>{user?.email}</p>
+                    </div>
+                </div>
+                
+
+                <hr className="mt-5"/>
 
                 <Button onClick={onDisconnect} aria-description="Log the user out of your session.">
                     Disconnect
