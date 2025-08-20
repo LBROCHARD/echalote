@@ -10,7 +10,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useGroupContext } from "@/providers/GroupContext";
-import { HexColorPicker } from "react-colorful";
+import ColorPicker from "../ColorPicker";
+import { hexadecimalColorRegex } from "@/utils/colorUtils";
 
 
 const formSchema = z.object({
@@ -42,6 +43,11 @@ const AddPageForm = () => {
     const onSubmitCreate = async (values: z.infer<typeof formSchema>) => {
         setFetchError(""); // this is used to show the error reloads when trying again
         
+        if (!hexadecimalColorRegex.test(color)) {
+            setFetchError("Color must be an Hexadecimal with a # and 6 characters")
+            return;
+        }
+
         try {
             if (selectedGroup == null ) {
                 throw new Error(`No group selected`);
@@ -121,7 +127,7 @@ const AddPageForm = () => {
                                 )}
                             />
                             <FormLabel className="mb-2">New Page color : </FormLabel>
-                            <HexColorPicker color={color} onChange={setColor} />
+                            <ColorPicker color={color} setColor={setColor}/>
                             <FormField
                                 control={form.control}
                                 name="pageTags"
