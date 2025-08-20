@@ -33,10 +33,14 @@ const ModifyPageDialog = () => {
     const [fetchError, setFetchError] = useState("");
     const [pageParentDialogOpen, setPageParentDialogOpen] = useState(false);
 
+    const [pageName, setPageName] = useState("My New Page");
+    const [pageTags, setPageTags] = useState("page");
     const [color, setColor] = useState("#aabbcc");
 
     useEffect(() => {
-        setColor("" + selectedPage?.pageColor)
+        setColor("" + selectedPage?.pageColor);
+        setPageName("" + selectedPage?.pageName);
+        setPageTags("" + selectedPage?.tags);
     }, [selectedPage])
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -47,7 +51,7 @@ const ModifyPageDialog = () => {
         },
     })
 
-    const onSubmitModify = async (values: z.infer<typeof formSchema>) => {
+    const onSubmitModify = async () => {
         setFetchError(""); // this is used to show the error reloads when trying again
         
         if (!hexadecimalColorRegex.test(color)) {
@@ -69,9 +73,9 @@ const ModifyPageDialog = () => {
                 body: JSON.stringify({
                     groupId: selectedGroup.id,
                     pageId: selectedPage.id,
-                    pageName: values.pageTitle,
+                    pageName: pageName,
                     pageColor: color.substring(1,7),
-                    pageTags: values.pageTags
+                    pageTags: pageTags
                 }) 
             });
 
@@ -84,7 +88,7 @@ const ModifyPageDialog = () => {
             }
             const json = await response.json();
             console.log("result : ", json);
-            toast("Page " + values.pageTitle + " was successfully modified !");
+            toast("Page " + pageName + " was successfully modified !");
             setPageParentDialogOpen(false);
             rechargeGroupContent();
 
@@ -116,47 +120,23 @@ const ModifyPageDialog = () => {
 
                     <Form {...form}>
                         <form onSubmit= {form.handleSubmit(onSubmitModify)} className="space-y-8">
-                        <FormField
-                            control={form.control}
-                            name="pageTitle"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>New Page Title</FormLabel>
-                                        <FormControl>
-                                            <Input 
-                                                placeholder="Enter a new page name"
-                                                {...field} 
-                                            />
-                                        </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        
+                        <FormLabel className="mb-2">New Page name : </FormLabel>
+                        <Input placeholder="My Cool Group" value={pageName} onChange={(event) => setPageName(event.target.value)}/>
+
                         <FormLabel className="mb-2">New Page color : </FormLabel>
                         <ColorPicker color={color} setColor={setColor}/>
-                        <FormField
-                            control={form.control}
-                            name="pageTags"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Page Tags (separated by spaces)</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Enter new tags" 
-                                                {...field} 
-                                            />
-                                        </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        
+                        <FormLabel className="mb-2">New Tags : </FormLabel>
+                        <Input placeholder="My Cool Group" value={pageTags} onChange={(event) => setPageTags(event.target.value)}/>
+
                         <p className="text-red-600">{fetchError}</p>
 
                         <DeletePageDialog setParentDialogOpen={setPageParentDialogOpen}/>
                         
                         <DialogFooter>
                             <Button type="button" onClick={() => setPageParentDialogOpen(false)}>Cancel</Button>
-                            <Button type="submit" variant="secondary">Modify</Button>
+                            <Button type="submit" onClick={onSubmitModify} variant="secondary">Modify</Button>
                         </DialogFooter>
                             
                         </form>

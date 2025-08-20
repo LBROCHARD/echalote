@@ -1,7 +1,7 @@
 import { useAuth } from "@/providers/AuthContext";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Form, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import z from "zod";
 import { useEffect, useState } from "react";
@@ -28,10 +28,12 @@ const ModifyGroupDialog = () => {
 
     const [parentDialogOpen, setParentDialogOpen] = useState(false);
 
+    const [groupName, setGroupName] = useState("My New Group");
     const [color, setColor] = useState("#aabbcc");
 
     useEffect(() => {
-        setColor("" + selectedGroup?.groupColor)
+        setColor("" + selectedGroup?.groupColor);
+        setGroupName("" + selectedGroup?.groupName)
     }, [selectedGroup])
 
 
@@ -42,7 +44,7 @@ const ModifyGroupDialog = () => {
         },
     })
 
-    const onSubmitModify = async (values: z.infer<typeof formSchema>) => {
+    const onSubmitModify = async () => {
         setFetchError(""); // this is used to show the error reloads when trying again
 
         if (!hexadecimalColorRegex.test(color)) {
@@ -63,7 +65,7 @@ const ModifyGroupDialog = () => {
                 },
                 body: JSON.stringify({
                     groupID: selectedGroup.id,
-                    groupName: values.groupName,
+                    groupName: groupName,
                     groupColor: color,
                 }) 
             });
@@ -77,7 +79,7 @@ const ModifyGroupDialog = () => {
             }
             const json = await response.json();
             console.log("result : ", json);
-            toast("Group " + values.groupName + " was successfully modified !");
+            toast("Group " + groupName + " was successfully modified !");
             setParentDialogOpen(false);
             rechargeUserGroups();
 
@@ -111,22 +113,10 @@ const ModifyGroupDialog = () => {
 
                     <Form {...form}>
                         <form onSubmit= {form.handleSubmit(onSubmitModify)} className="space-y-8">
-                        <FormField
-                            control={form.control}
-                            name="groupName"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Group name</FormLabel>
-                                        <FormControl>
-                                            <Input 
-                                                placeholder="Enter a new group name"
-                                                {...field} 
-                                            />
-                                        </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+
+                        <FormLabel className="mb-2">New Group name : </FormLabel>
+                        <Input placeholder="My Cool Group" value={groupName} onChange={(event) => setGroupName(event.target.value)}/>
+                        
                         <FormLabel className="mb-2">New Group color : </FormLabel>
                         <ColorPicker color={color} setColor={setColor}/>
                         <p className="text-red-600">{fetchError}</p>
@@ -135,7 +125,7 @@ const ModifyGroupDialog = () => {
                         
                         <DialogFooter>
                             <Button type="button" onClick={() => setParentDialogOpen(false)}>Cancel</Button>
-                            <Button type="submit" variant="secondary">Modify</Button>
+                            <Button type="submit" onClick={onSubmitModify} variant="secondary">Modify</Button>
                         </DialogFooter>
                             
                         </form>
