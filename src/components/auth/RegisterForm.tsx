@@ -56,7 +56,7 @@ const RegisterForm = () => {
 
       const json = await response.json();
       console.log("result : ", json);
-      login(json.access_token, {username: json.username, email: json.username, id: json.id})
+      login(json.access_token, {username: json.username, email: json.email, id: json.id})
       toast("Successfully logged in as : " + user?.username);
       navigate("/")
     } catch (error: unknown) {
