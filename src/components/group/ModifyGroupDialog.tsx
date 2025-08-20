@@ -4,20 +4,19 @@ import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import z from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import DeleteGroupDialog from "./DeleteGroupDialog";
 import { useGroupContext } from "@/providers/GroupContext";
+import ColorPicker from "../ColorPicker";
+import { hexadecimalColorRegex } from "@/utils/colorUtils";
 
 const formSchema = z.object({
     groupName: z.string()
         .min(3, {message: "Please enter at least three characters"})
         .max(50, {message: "Please enter less than fifty characters"}),
-    color: z.string()
-        .min(6, {message: "Please enter a valid Hexadecimal color value without the #"})
-        .max(6, {message: "Please enter a valid Hexadecimal color value without the #"})
 })
 
 const ModifyGroupDialog = () => {
@@ -29,17 +28,28 @@ const ModifyGroupDialog = () => {
 
     const [parentDialogOpen, setParentDialogOpen] = useState(false);
 
+    const [color, setColor] = useState("#aabbcc");
+
+    useEffect(() => {
+        setColor("" + selectedGroup?.groupColor)
+    }, [selectedGroup])
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             groupName: "",
-            color: "",
         },
     })
 
     const onSubmitModify = async (values: z.infer<typeof formSchema>) => {
         setFetchError(""); // this is used to show the error reloads when trying again
+
+        if (!hexadecimalColorRegex.test(color)) {
+            setFetchError("Color must be an Hexadecimal with a # and 6 characters")
+            return;
+        }
+
         try {
             if (selectedGroup == null) {
                 throw new Error(`No group selected`);
@@ -54,7 +64,7 @@ const ModifyGroupDialog = () => {
                 body: JSON.stringify({
                     groupID: selectedGroup.id,
                     groupName: values.groupName,
-                    groupColor: "#" + values.color,
+                    groupColor: color,
                 }) 
             });
 
@@ -117,22 +127,8 @@ const ModifyGroupDialog = () => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="color"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Color (Hex format)</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Enter a new color" 
-                                                {...field} 
-                                            />
-                                        </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        <FormLabel className="mb-2">New Group color : </FormLabel>
+                        <ColorPicker color={color} setColor={setColor}/>
                         <p className="text-red-600">{fetchError}</p>
 
                         <DeleteGroupDialog setParentDialogOpen={setParentDialogOpen}/>

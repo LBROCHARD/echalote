@@ -4,22 +4,20 @@ import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import z from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast, Toaster } from "sonner";
 import { useGroupContext } from "@/providers/GroupContext";
 import { Settings } from "lucide-react";
 import DeletePageDialog from "./DeletePageDialog";
-import { isColorDark } from "@/utils/colorUtils";
+import { hexadecimalColorRegex, isColorDark } from "@/utils/colorUtils";
+import ColorPicker from "../ColorPicker";
 
 const formSchema = z.object({
     pageTitle: z.string()
         .min(3, {message: "Please enter at least three characters"})
         .max(50, {message: "Please enter less than fifty characters"}),
-    pageColor: z.string()
-        .min(6, {message: "Please enter a valid Hexadecimal color value without the #"})
-        .max(6, {message: "Please enter a valid Hexadecimal color value without the #"}),
     pageTags: z.string()
 })
 
@@ -35,17 +33,28 @@ const ModifyPageDialog = () => {
     const [fetchError, setFetchError] = useState("");
     const [pageParentDialogOpen, setPageParentDialogOpen] = useState(false);
 
+    const [color, setColor] = useState("#aabbcc");
+
+    useEffect(() => {
+        setColor("" + selectedPage?.pageColor)
+    }, [selectedPage])
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             pageTitle: "",
-            pageColor: "",
             pageTags: "",
         },
     })
 
     const onSubmitModify = async (values: z.infer<typeof formSchema>) => {
         setFetchError(""); // this is used to show the error reloads when trying again
+        
+        if (!hexadecimalColorRegex.test(color)) {
+            setFetchError("Color must be an Hexadecimal with a # and 6 characters")
+            return;
+        }
+        
         try {
             if (selectedGroup == null || selectedPage == null) {
                 throw new Error(`No group, or no page selected`);
@@ -61,7 +70,7 @@ const ModifyPageDialog = () => {
                     groupId: selectedGroup.id,
                     pageId: selectedPage.id,
                     pageName: values.pageTitle,
-                    pageColor: values.pageColor,
+                    pageColor: color.substring(1,7),
                     pageTags: values.pageTags
                 }) 
             });
@@ -123,22 +132,8 @@ const ModifyPageDialog = () => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="pageColor"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>New Color (Hex format)</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Enter a new color" 
-                                                {...field} 
-                                            />
-                                        </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        <FormLabel className="mb-2">New Page color : </FormLabel>
+                        <ColorPicker color={color} setColor={setColor}/>
                         <FormField
                             control={form.control}
                             name="pageTags"

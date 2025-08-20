@@ -18,3 +18,5 @@ export const getLuminosity = (hex: string): number => {
 export const isColorDark = (hex: string): boolean => {
     return getLuminosity(hex) < 128;
 };
+
+export const hexadecimalColorRegex = /^#?([0-9a-fA-F]{6})$/;
