@@ -10,14 +10,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useGroupContext } from "@/providers/GroupContext";
+import { HexColorPicker } from "react-colorful";
+
 
 const formSchema = z.object({
     pageName: z.string()
         .min(3, {message: "Please enter at least three characters"})
         .max(50, {message: "Please enter less than fifty characters"}),
-    pageColor: z.string()
-        .min(6, {message: "Please enter a valid Hexadecimal color value without the #"})
-        .max(6, {message: "Please enter a valid Hexadecimal color value without the #"}),
     pageTags: z.string()
 })
 
@@ -30,12 +29,12 @@ const AddPageForm = () => {
     const [fetchError, setFetchError] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
+    const [color, setColor] = useState("#aabbcc");
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             pageName: "New Page",
-            pageColor: "8888DD",
             pageTags: "page"
         },
     })
@@ -57,7 +56,7 @@ const AddPageForm = () => {
                 body: JSON.stringify({
                     groupId: selectedGroup.id,
                     pageName: values.pageName,
-                    pageColor: values.pageColor,
+                    pageColor: color.substring(1,7),
                     tags: values.pageTags
                 }) 
             });
@@ -121,19 +120,8 @@ const AddPageForm = () => {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="pageColor"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>New Page Color in Hex format</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="00FF55" {...field} />
-                                            </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            <FormLabel className="mb-2">New Page color : </FormLabel>
+                            <HexColorPicker color={color} onChange={setColor} />
                             <FormField
                                 control={form.control}
                                 name="pageTags"

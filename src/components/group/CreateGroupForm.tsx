@@ -10,14 +10,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useGroupContext } from "@/providers/GroupContext";
+import { HexColorPicker } from "react-colorful";
 
 const formSchema = z.object({
     groupName: z.string()
         .min(3, {message: "Please enter at least three characters"})
         .max(50, {message: "Please enter less than fifty characters"}),
-    color: z.string()
-        .min(6, {message: "Please enter a valid Hexadecimal color value without the #"})
-        .max(6, {message: "Please enter a valid Hexadecimal color value without the #"})
 })
 
 
@@ -29,12 +27,12 @@ const CreateGroupForm = () => {
     const [fetchError, setFetchError] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
+    const [color, setColor] = useState("#aabbcc");
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             groupName: "My new group",
-            color: "00FF55",
         },
     })
 
@@ -49,7 +47,7 @@ const CreateGroupForm = () => {
                 },
                 body: JSON.stringify({
                     groupName: values.groupName,
-                    groupColor: "#" + values.color,
+                    groupColor: color,
                 }) 
             });
 
@@ -113,19 +111,8 @@ const CreateGroupForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="color"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Color (Hex format)</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="00FF55" {...field} />
-                                        </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        <FormLabel className="mb-2">New Group color : </FormLabel>
+                        <HexColorPicker color={color} onChange={setColor} />
                         <p className="text-red-600">{fetchError}</p>
                         
                         <DialogFooter>
