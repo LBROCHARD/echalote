@@ -28,7 +28,8 @@ const CreateGroupForm = () => {
     const [fetchError, setFetchError] = useState("");
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    const [color, setColor] = useState("#aabbcc");
+    const [color, setColor] = useState("#3684d2");
+    const [colorError, setColorError] = useState("");
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -37,11 +38,18 @@ const CreateGroupForm = () => {
         },
     })
 
+    const openDialogAndResetContent = () => {
+        setDialogOpen(true);
+        setColorError("");
+        setColor("#3684d2");
+    }
+
     const onSubmitCreate = async (values: z.infer<typeof formSchema>) => {
         setFetchError(""); // this is used to show the error reloads when trying again
+        setColorError("");
 
         if (!hexadecimalColorRegex.test(color)) {
-            setFetchError("Color must be an Hexadecimal with a # and 6 characters")
+            setColorError("Color must be an Hexadecimal with a # and 6 characters")
             return;
         }
 
@@ -91,7 +99,7 @@ const CreateGroupForm = () => {
                         asChild 
                         className="hover:bg-primary rounded-lg" 
                         tooltip={{children: "Create a new group", hidden: false,}} 
-                        onClick={() => setDialogOpen(true)}
+                        onClick={openDialogAndResetContent}
                     >
                         <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg cursor-pointer">
                             <p>+</p>
@@ -120,7 +128,7 @@ const CreateGroupForm = () => {
                             )}
                         />
                         <FormLabel className="mb-2">New Group color : </FormLabel>
-                        <ColorPicker color={color} setColor={setColor}/>
+                        <ColorPicker color={color} setColor={setColor} error={colorError}/>
                         
                         <p className="text-red-600">{fetchError}</p>
                         
