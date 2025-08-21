@@ -31,6 +31,7 @@ const AddPageForm = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const [color, setColor] = useState("#aabbcc");
+    const [colorError, setColorError] = useState("");
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -40,11 +41,18 @@ const AddPageForm = () => {
         },
     })
 
+    const openPageDialogAndResetContent = () => {
+        setDialogOpen(true);
+        setColorError("");
+        setColor("#3684d2");
+    }
+
     const onSubmitCreate = async (values: z.infer<typeof formSchema>) => {
         setFetchError(""); // this is used to show the error reloads when trying again
+        setColorError(""); 
         
         if (!hexadecimalColorRegex.test(color)) {
-            setFetchError("Color must be an Hexadecimal with a # and 6 characters")
+            setColorError("Color must be an Hexadecimal with a # and 6 characters")
             return;
         }
 
@@ -78,8 +86,8 @@ const AddPageForm = () => {
             const json = await response.json();
             console.log("result : ", json);
             toast("Page " + values.pageName + " was successfully added to the group !");
+            rechargeGroupContent(json);
             setDialogOpen(false);
-            rechargeGroupContent();
 
 
         } catch (error: unknown) {
@@ -100,7 +108,7 @@ const AddPageForm = () => {
             <Dialog open={dialogOpen}>
                 <DialogTrigger>
                     <SidebarMenuItem className="list-none m-0">
-                        <SidebarMenuButton asChild className="cursor-pointer m-0" onClick={() => setDialogOpen(true)}>
+                        <SidebarMenuButton asChild className="cursor-pointer m-0" onClick={openPageDialogAndResetContent}>
                             <p className="text-muted-foreground"> + Create a new page</p>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -127,7 +135,7 @@ const AddPageForm = () => {
                                 )}
                             />
                             <FormLabel className="mb-2">New Page color : </FormLabel>
-                            <ColorPicker color={color} setColor={setColor}/>
+                            <ColorPicker color={color} setColor={setColor} error={colorError}/>
                             <FormField
                                 control={form.control}
                                 name="pageTags"

@@ -33,8 +33,8 @@ interface GroupContextType {
     selectedPage: Page | null;
     setSelectedPage: (token: Page | null) => void;
 
-    rechargeGroupContent: () => void;
-    rechargeUserGroups: () => void;
+    rechargeGroupContent: (selectedPage?: Page) => void;
+    rechargeUserGroups: (selectedGroup?: Group) => void;
 }
 
 const GroupContext = createContext<GroupContextType | undefined>(undefined);
@@ -56,13 +56,20 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
 
     const [selectedPage, setSelectedPage] = useState<Page | null>(null);
 
-    const rechargeGroupContent = () => {
+    const rechargeGroupContent = (selectedPage?: Page) => {
         getGroupMembers();
         getGroupPages();
+
+        if(selectedPage != null) {
+            setSelectedPage(selectedPage);
+        }
     }
 
-    const rechargeUserGroups = () => {
+    const rechargeUserGroups = (selectedGroup?: Group) => {
         getGroups();
+        if (selectedGroup != null) {
+            setSelectedGroup(selectedGroup);
+        }
     }
 
     const contextValue: GroupContextType = {
@@ -106,16 +113,13 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
             setGroups(json);
 
             // Defaults to the first group, to never be empty
-            if (json != null &&  json.length >= 1) {
+            if (json != null &&  json.length >= 1 && selectedGroup == null) {
                 setSelectedGroup({
                     id: json[0].id,
                     groupName: json[0].groupName,
                     groupColor: json[0].groupColor,
                 }) 
-            } else {
-                setSelectedGroup(null)
             }
-            // setSelectedPage(groups[0].serverName)
 
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -185,7 +189,7 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
                     doesSelectedPageStillExist = true;
                 }
             });
-            if (!doesSelectedPageStillExist && selectedGroupPages.length >= 1){
+            if (!doesSelectedPageStillExist && selectedGroupPages.length >= 1 && selectedPage == null){
                 setSelectedPage(selectedGroupPages[0])
             }
 

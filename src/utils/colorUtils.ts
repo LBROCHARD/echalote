@@ -6,7 +6,7 @@ export const getLuminosity = (hex: string): number => {
     } else if (hex.length == 7) {
         substrings = [1, 3, 5, 7];
     } else {
-        throw Error;
+        throw Error("Can't get luminosity of a color that isn't Hexadecimal : " + hex);
     }
 
     const r = parseInt(hex.substring(substrings[0], substrings[1]), 16);

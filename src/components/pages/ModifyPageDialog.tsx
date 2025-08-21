@@ -1,7 +1,7 @@
 import { useAuth } from "@/providers/AuthContext";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Form, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import z from "zod";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ import ColorPicker from "../ColorPicker";
 
 const formSchema = z.object({
     pageTitle: z.string()
-        .min(3, {message: "Please enter at least three characters"})
+        .min(2, {message: "Please enter at least two characters"})
         .max(50, {message: "Please enter less than fifty characters"}),
     pageTags: z.string()
 })
@@ -30,13 +30,21 @@ const ModifyPageDialog = () => {
     const isDark = isColorDark(selectedPage? selectedPage.pageColor : "FFFFFF");
     const iconColor = isDark ? 'text-white' : 'text-black';
     
+    const [pageNameError, setPageNameError] = useState("");
+    const [pageColorError, setPageColorError] = useState("");
     const [fetchError, setFetchError] = useState("");
+
     const [pageParentDialogOpen, setPageParentDialogOpen] = useState(false);
 
+    const [pageName, setPageName] = useState("My New Page");
+    const [pageTags, setPageTags] = useState("page");
     const [color, setColor] = useState("#aabbcc");
 
     useEffect(() => {
-        setColor("" + selectedPage?.pageColor)
+        const newcolor = selectedPage ? selectedPage.pageColor : "FFFFFF"
+        setColor("#" + newcolor);
+        setPageName("" + selectedPage?.pageName);
+        setPageTags("" + selectedPage?.tags);
     }, [selectedPage])
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -47,11 +55,41 @@ const ModifyPageDialog = () => {
         },
     })
 
-    const onSubmitModify = async (values: z.infer<typeof formSchema>) => {
+    const openAndResetDialog = () => {
+        setPageParentDialogOpen(true);
+
+        // Reset errors
+        setFetchError("");
+        setPageNameError("");
+        setPageColorError("");
+
+        // Reset Content
+        const newcolor = selectedPage ? selectedPage.pageColor : "FFFFFF"
+        setColor("#" + newcolor);
+        setPageName("" + selectedPage?.pageName);
+        setPageTags("" + selectedPage?.tags);
+    }
+
+    const onSubmitModify = async () => {
         setFetchError(""); // this is used to show the error reloads when trying again
-        
+        setPageColorError("");
+        setPageNameError("");
+
+        let error = false;
         if (!hexadecimalColorRegex.test(color)) {
-            setFetchError("Color must be an Hexadecimal with a # and 6 characters")
+            setPageColorError("Color must be an Hexadecimal with a # and 6 characters")
+            error = true;
+        }
+
+        if (pageName.length < 1) {
+            setPageNameError("Please enter at least one characters for the Page name")
+            error = true;
+        } else if ( pageName.length > 50 ) {
+            setPageNameError("Please enter less than fifty characters for the Page name")
+            error = true;
+        }
+
+        if(error) {
             return;
         }
         
@@ -69,9 +107,9 @@ const ModifyPageDialog = () => {
                 body: JSON.stringify({
                     groupId: selectedGroup.id,
                     pageId: selectedPage.id,
-                    pageName: values.pageTitle,
+                    pageName: pageName,
                     pageColor: color.substring(1,7),
-                    pageTags: values.pageTags
+                    pageTags: pageTags
                 }) 
             });
 
@@ -84,9 +122,11 @@ const ModifyPageDialog = () => {
             }
             const json = await response.json();
             console.log("result : ", json);
-            toast("Page " + values.pageTitle + " was successfully modified !");
-            setPageParentDialogOpen(false);
+            toast("Page " + pageName + " was successfully modified !");
             rechargeGroupContent();
+            setPageParentDialogOpen(false);
+
+            rechargeGroupContent(json);
 
 
         } catch (error: unknown) {
@@ -104,7 +144,7 @@ const ModifyPageDialog = () => {
             <Dialog open={pageParentDialogOpen}>
                 <DialogTrigger 
                     className="m-0 p-0 bg-transparent text-white hover:text-black hover:bg-transparent shadow-none ml-3 mt-5" 
-                    onClick={() => setPageParentDialogOpen(true)}
+                    onClick={openAndResetDialog}
                 >
                     <Settings className={"w-5 h-5 " + iconColor}/>
                 </DialogTrigger>
@@ -116,47 +156,24 @@ const ModifyPageDialog = () => {
 
                     <Form {...form}>
                         <form onSubmit= {form.handleSubmit(onSubmitModify)} className="space-y-8">
-                        <FormField
-                            control={form.control}
-                            name="pageTitle"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>New Page Title</FormLabel>
-                                        <FormControl>
-                                            <Input 
-                                                placeholder="Enter a new page name"
-                                                {...field} 
-                                            />
-                                        </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        
+                        <FormLabel className="mb-2">New Page name : </FormLabel>
+                        <Input placeholder="My Cool Group" value={pageName} onChange={(event) => setPageName(event.target.value)}/>
+                        <p className="text-red-600">{pageNameError}</p>
+
                         <FormLabel className="mb-2">New Page color : </FormLabel>
-                        <ColorPicker color={color} setColor={setColor}/>
-                        <FormField
-                            control={form.control}
-                            name="pageTags"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Page Tags (separated by spaces)</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Enter new tags" 
-                                                {...field} 
-                                            />
-                                        </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        <ColorPicker color={color} setColor={setColor} error={pageColorError}/>
+                        
+                        <FormLabel className="mb-2">New Tags : </FormLabel>
+                        <Input placeholder="My Cool Group" value={pageTags} onChange={(event) => setPageTags(event.target.value)}/>
+
                         <p className="text-red-600">{fetchError}</p>
 
                         <DeletePageDialog setParentDialogOpen={setPageParentDialogOpen}/>
                         
                         <DialogFooter>
                             <Button type="button" onClick={() => setPageParentDialogOpen(false)}>Cancel</Button>
-                            <Button type="submit" variant="secondary">Modify</Button>
+                            <Button type="submit" onClick={onSubmitModify} variant="secondary">Modify</Button>
                         </DialogFooter>
                             
                         </form>
