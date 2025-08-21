@@ -6,11 +6,13 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AccountComponent from "./components/AccountComponent";
 import HomeComponent from "./components/HomeComponent";
+import { Toaster } from "sonner";
 
 function App() {
 
     return (
         <BrowserRouter>
+            <Toaster/>
             <Routes>    
                 <Route path="/" element={<Layout/>}>
                     <Route path="/" element={<HomeComponent/>}></Route>

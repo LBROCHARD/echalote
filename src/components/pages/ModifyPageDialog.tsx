@@ -7,7 +7,7 @@ import z from "zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { useGroupContext } from "@/providers/GroupContext";
 import { Settings } from "lucide-react";
 import DeletePageDialog from "./DeletePageDialog";
@@ -140,7 +140,6 @@ const ModifyPageDialog = () => {
 
     return (
         <>
-            <Toaster/>
             <Dialog open={pageParentDialogOpen}>
                 <DialogTrigger 
                     className="m-0 p-0 bg-transparent text-white hover:text-black hover:bg-transparent shadow-none ml-3 mt-5" 

@@ -1,7 +1,7 @@
 import { useAuth } from "@/providers/AuthContext";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { useState } from "react";
@@ -63,7 +63,6 @@ const DeleteMemberDialog = (props: DeleteMemberDialogProps) => {
 
     return (
         <>
-            <Toaster/>
             <Dialog open={dialogOpen}>
                 <SidebarMenuItem key={props.groupID} className="list-none m-0 p-0 mb-0">
                     <SidebarMenuButton className="m-0 p-0" tabIndex={-1}>

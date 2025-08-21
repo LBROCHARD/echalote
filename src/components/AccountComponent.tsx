@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import userIcon from '/User.png';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 const AccountComponent = () => {
     const {token, user, logout} = useAuth();
@@ -44,7 +44,6 @@ const AccountComponent = () => {
 
     return (
         <div className="flex items-start justify-start h-screen p-20">
-            <Toaster/>
             <div className="items-start justify-start w-full">
                 <div className="flex flex-row">
                     <img src={userIcon} alt={user?.username + " account"} className="bg-primary aspect-square h-20 rounded-2xl"/>

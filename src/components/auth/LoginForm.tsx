@@ -6,7 +6,6 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { useState } from "react"
 import { useAuth } from "@/providers/AuthContext"
-import { Toaster } from "../ui/sonner"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 
@@ -69,7 +68,6 @@ const RegisterForm = () => {
 
   return (
     <div className="items-center justify-center">
-      <Toaster/>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField

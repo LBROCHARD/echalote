@@ -1,7 +1,7 @@
 import { useAuth } from "@/providers/AuthContext";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { useGroupContext } from "@/providers/GroupContext";
 import { useState } from "react";
 
@@ -56,7 +56,6 @@ const DeletePageDialog = (props: DeletePageDialogProps) => {
 
     return (
         <>
-            <Toaster/>
             <Dialog open={dialogOpen}>
                 <DialogTrigger className="m-0">
 

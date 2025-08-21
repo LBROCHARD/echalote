@@ -3,7 +3,7 @@ import z from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
@@ -78,7 +78,6 @@ const AddMemberForm = () => {
 
     return (
         <>
-            <Toaster/>
             <Dialog open={dialogOpen}>
                 <DialogTrigger>
                     <SidebarMenuItem className="list-none m-0">

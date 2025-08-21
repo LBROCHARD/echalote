@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { useAuth } from "@/providers/AuthContext";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import ModifyPageDialog from "./pages/ModifyPageDialog";
 import { BookOpen, PencilLine, Save } from "lucide-react";
 import Markdown from 'react-markdown'
@@ -109,7 +109,6 @@ const MainContent = () => {
 
     return (
         <div className="flex flex-col h-full" id="main-content">
-            <Toaster/>
             <div 
                 className="h-auto shadow-xl"
                 style={{backgroundColor: "#" + selectedPage?.pageColor}}
