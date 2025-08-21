@@ -34,7 +34,7 @@ interface GroupContextType {
     setSelectedPage: (token: Page | null) => void;
 
     rechargeGroupContent: (selectedPage?: Page) => void;
-    rechargeUserGroups: (selectedGroup?: Group) => void;
+    rechargeUserGroups: (selectedGroup?: Group, selectFirstGroup?: boolean) => void;
 }
 
 const GroupContext = createContext<GroupContextType | undefined>(undefined);
@@ -65,8 +65,13 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
         }
     }
 
-    const rechargeUserGroups = (selectedGroup?: Group) => {
-        getGroups();
+    const rechargeUserGroups = (selectedGroup?: Group, selectFirstGroup?: boolean) => {
+        if (selectFirstGroup == true) {
+            getGroups(selectFirstGroup);
+        } else {
+            getGroups();
+        }
+        
         if (selectedGroup != null) {
             setSelectedGroup(selectedGroup);
         }
@@ -94,7 +99,7 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
         getGroupPages();
     }, [selectedGroup, selectedPage]);
 
-    const getGroups = async () => {
+    const getGroups = async (selectFirstGroup: boolean = false) => {
         try {
             const response = await fetch(API + "/group", {
                 method: "get",
@@ -113,7 +118,7 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
             setGroups(json);
 
             // Defaults to the first group, to never be empty
-            if (json != null &&  json.length >= 1 && selectedGroup == null) {
+            if (selectFirstGroup || (json != null &&  json.length >= 1 && selectedGroup == null)) {
                 setSelectedGroup({
                     id: json[0].id,
                     groupName: json[0].groupName,

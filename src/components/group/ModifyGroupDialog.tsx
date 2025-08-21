@@ -21,7 +21,7 @@ const formSchema = z.object({
 
 const ModifyGroupDialog = () => {
     const {token} = useAuth();
-    const {selectedGroup, rechargeUserGroups} = useGroupContext();
+    const {selectedGroup, rechargeUserGroups, rechargeGroupContent} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
     
     const [nameError, setNameError] = useState("");
@@ -112,7 +112,8 @@ const ModifyGroupDialog = () => {
             toast("Group " + groupName + " was successfully modified !");
             setParentDialogOpen(false);
             
-            rechargeUserGroups(selectedGroup);
+            rechargeUserGroups(json);
+            rechargeGroupContent();
 
         } catch (error: unknown) {
             if (error instanceof Error) {

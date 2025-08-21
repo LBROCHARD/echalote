@@ -1,9 +1,10 @@
 import { useAuth } from "@/providers/AuthContext";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { useGroupContext } from "@/providers/GroupContext";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface DeletePageDialogProps {
     setParentDialogOpen: (isOpen: boolean) => void;
@@ -13,6 +14,7 @@ const DeletePageDialog = (props: DeletePageDialogProps) => {
     const {token} = useAuth();
     const {selectedGroup, selectedPage, rechargeGroupContent} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
+    const navigate = useNavigate();
 
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -42,6 +44,7 @@ const DeletePageDialog = (props: DeletePageDialogProps) => {
                 console.log("Page deleted ");
                 toast("The Page was successfully deleted !");
                 setDialogOpen(false);
+                navigate("/");
                 props.setParentDialogOpen(false);
                 rechargeGroupContent();
             }
@@ -56,7 +59,6 @@ const DeletePageDialog = (props: DeletePageDialogProps) => {
 
     return (
         <>
-            <Toaster/>
             <Dialog open={dialogOpen}>
                 <DialogTrigger className="m-0">
 
