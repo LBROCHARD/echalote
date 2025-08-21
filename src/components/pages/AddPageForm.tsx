@@ -86,8 +86,8 @@ const AddPageForm = () => {
             const json = await response.json();
             console.log("result : ", json);
             toast("Page " + values.pageName + " was successfully added to the group !");
+            rechargeGroupContent(json);
             setDialogOpen(false);
-            rechargeGroupContent();
 
 
         } catch (error: unknown) {

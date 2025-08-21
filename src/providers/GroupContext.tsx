@@ -120,7 +120,6 @@ export const GroupContextProvider: React.FC<GroupContextProviderProps> = ({ chil
                     groupColor: json[0].groupColor,
                 }) 
             }
-            // setSelectedPage(groups[0].serverName)
 
         } catch (error: unknown) {
             if (error instanceof Error) {

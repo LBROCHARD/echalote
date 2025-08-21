@@ -15,7 +15,7 @@ import { hexadecimalColorRegex } from "@/utils/colorUtils";
 
 const formSchema = z.object({
     groupName: z.string()
-        .min(3, {message: "Please enter at least three characters"})
+        .min(2, {message: "Please enter at least two characters"})
         .max(50, {message: "Please enter less than fifty characters"}),
 })
 
@@ -78,7 +78,7 @@ const CreateGroupForm = () => {
             console.log("result : ", json);
             toast("Group " + values.groupName + " was successfully created !");
             setDialogOpen(false);
-            rechargeUserGroups();
+            rechargeUserGroups(json);
 
         } catch (error: unknown) {
             if (error instanceof Error) {
