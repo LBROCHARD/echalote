@@ -42,7 +42,7 @@ const DeleteGroupDialog = (props: DeleteGroupDialogProps) => {
                 toast("The group was successfully deleted !");
                 setDialogOpen(false);
                 props.setParentDialogOpen(false);
-                rechargeUserGroups();
+                rechargeUserGroups(undefined, true);
 
             }
         } catch (error: unknown) {
