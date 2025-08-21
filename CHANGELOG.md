@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.1.0](https://github.com/LBROCHARD/echalote/compare/1.0.0...1.1.0) (2025-08-21)
+
+### Features
+
+* added error to create forms color ([a70cd8e](https://github.com/LBROCHARD/echalote/commit/a70cd8e76b90dce9679c7c61f813b37a4209435b))
+* better color picker ([af550e0](https://github.com/LBROCHARD/echalote/commit/af550e03a28013a3b6dac6b6055109ee2907cfed))
+* errors for modify dialogs ([a8bf1e6](https://github.com/LBROCHARD/echalote/commit/a8bf1e6209ed232a60f925938e4d3a872eeaf937))
+* select group or page after creation ([d868964](https://github.com/LBROCHARD/echalote/commit/d8689644af3fdac61fd7abc38c52a9b73f5b9c57))
+* updated account page to be more beautiful ([9c4f68c](https://github.com/LBROCHARD/echalote/commit/9c4f68cacb5a620e295cbd03d500ba267e43e3c9))
+* working on modify dialogs ([fc199b7](https://github.com/LBROCHARD/echalote/commit/fc199b706aec058c88994b2e19a07593f1530685))
+
+### Bug Fixes
+
+* fixed dialog error ([7768629](https://github.com/LBROCHARD/echalote/commit/7768629a69d7d6aabbc99870ac981bbe8528c103))
+* fixed error mixing emails and usernames ([73930a7](https://github.com/LBROCHARD/echalote/commit/73930a7ce81108f4dcae23391d18109dde396368))
+* fixed lint error ([c7180c4](https://github.com/LBROCHARD/echalote/commit/c7180c474980957e4ae64557e52dea8dc6d8f9a4))
+* fixed update group and removed toasters ([c383e9a](https://github.com/LBROCHARD/echalote/commit/c383e9ae79a6bbd0725bef9bc7b0ef7279be5cef))
+* redirect to home after deleting a page ([32e5b9f](https://github.com/LBROCHARD/echalote/commit/32e5b9ff45203691d34a048cee23c1e512903000))
+* select first group when group is deleted ([57fc405](https://github.com/LBROCHARD/echalote/commit/57fc4053f79e5ce2b094e8866df433c904228b57))
+
 ## [1.0.0](https://github.com/LBROCHARD/echalote/compare/0.5.0...1.0.0) (2025-08-19)
 
 ### Features
