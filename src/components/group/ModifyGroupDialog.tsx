@@ -15,8 +15,8 @@ import { hexadecimalColorRegex } from "@/utils/colorUtils";
 
 const formSchema = z.object({
     groupName: z.string()
-        .min(3, {message: "Please enter at least three characters"})
-        .max(50, {message: "Please enter less than fifty characters"}),
+        .min(2, {message: "Please enter at least two characters"})
+        .max(20, {message: "Please enter less than twenty characters"}),
 })
 
 const ModifyGroupDialog = () => {
@@ -24,6 +24,8 @@ const ModifyGroupDialog = () => {
     const {selectedGroup, rechargeUserGroups} = useGroupContext();
     const API = import.meta.env.VITE_REACT_APP_API_URL
     
+    const [nameError, setNameError] = useState("");
+    const [colorError, setColorError] = useState("");
     const [fetchError, setFetchError] = useState("");
 
     const [parentDialogOpen, setParentDialogOpen] = useState(false);
@@ -33,7 +35,7 @@ const ModifyGroupDialog = () => {
 
     useEffect(() => {
         setColor("" + selectedGroup?.groupColor);
-        setGroupName("" + selectedGroup?.groupName)
+        setGroupName("" + selectedGroup?.groupName);
     }, [selectedGroup])
 
 
@@ -44,11 +46,39 @@ const ModifyGroupDialog = () => {
         },
     })
 
+    const openAndResetDialog = () => {
+        setParentDialogOpen(true);
+
+        // Reset errors
+        setFetchError("");
+        setNameError("");
+        setColorError("");
+
+        // Reset Content
+        setColor("" + selectedGroup?.groupColor);
+        setGroupName("" + selectedGroup?.groupName);
+    }
+
     const onSubmitModify = async () => {
         setFetchError(""); // this is used to show the error reloads when trying again
+        setNameError("");
+        setColorError("");
 
+        let error = false;
         if (!hexadecimalColorRegex.test(color)) {
-            setFetchError("Color must be an Hexadecimal with a # and 6 characters")
+            setColorError("Color must be an Hexadecimal with a # and 6 characters")
+            error = true;
+        }
+
+        if (groupName.length < 2) {
+            setNameError("Please enter at least two characters for the group name")
+            error = true;
+        } else if ( groupName.length > 20 ) {
+            setNameError("Please enter less than twenty characters for the group name")
+            error = true;
+        }
+
+        if(error) {
             return;
         }
 
@@ -81,8 +111,8 @@ const ModifyGroupDialog = () => {
             console.log("result : ", json);
             toast("Group " + groupName + " was successfully modified !");
             setParentDialogOpen(false);
-            rechargeUserGroups();
-
+            
+            rechargeUserGroups(selectedGroup);
 
         } catch (error: unknown) {
             if (error instanceof Error) {
@@ -100,7 +130,7 @@ const ModifyGroupDialog = () => {
 
                     <Button 
                         className="m-0 ml-2 p-0 pl-1 pr-1 bg-transparent hover:bg-transparent text-secondary-foreground hover:text-primary shadow-none cursor-pointer"
-                        onClick={() => setParentDialogOpen(true)}
+                        onClick={openAndResetDialog}
                     >
                         ...
                     </Button>
@@ -116,9 +146,10 @@ const ModifyGroupDialog = () => {
 
                         <FormLabel className="mb-2">New Group name : </FormLabel>
                         <Input placeholder="My Cool Group" value={groupName} onChange={(event) => setGroupName(event.target.value)}/>
+                        <p className="text-red-600 mt-0">{nameError}</p>
                         
                         <FormLabel className="mb-2">New Group color : </FormLabel>
-                        <ColorPicker color={color} setColor={setColor}/>
+                        <ColorPicker color={color} setColor={setColor} error={colorError}/>
                         <p className="text-red-600">{fetchError}</p>
 
                         <DeleteGroupDialog setParentDialogOpen={setParentDialogOpen}/>
