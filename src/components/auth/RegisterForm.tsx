@@ -10,7 +10,7 @@ import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 
 // Regex for at least : 1 lowercase, 1 uppercase, 1 number and 1 special character
-const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&+\-=/~])[A-Za-z\d@$!%*?&+\-=/~]{8,}$/;
+const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\S])[A-Za-z\d\s\S]{8,}$/;
  
 const formSchema = z.object({
   username: z.string().min(2, {
