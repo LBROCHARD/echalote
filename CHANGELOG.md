@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.1](https://github.com/LBROCHARD/echalote/compare/1.1.0...1.1.1) (2025-08-22)
+
+### Bug Fixes
+
+* fixed list of allowed character for password ([d1c6062](https://github.com/LBROCHARD/echalote/commit/d1c606241f9ea5534a8df672699faa172eca91ad))
+
 ## [1.1.0](https://github.com/LBROCHARD/echalote/compare/1.0.0...1.1.0) (2025-08-21)
 
 ### Features
